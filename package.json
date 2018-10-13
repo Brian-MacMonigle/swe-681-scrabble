@@ -2,7 +2,7 @@
   "name": "swe-681-scrabble",
   "version": "1.0.0",
   "description": "SWE 681 Final Project",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,5 +16,7 @@
     "url": "https://github.com/Brian-MacMonigle/swe-681-scrabble/issues"
   },
   "homepage": "https://github.com/Brian-MacMonigle/swe-681-scrabble#readme",
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
