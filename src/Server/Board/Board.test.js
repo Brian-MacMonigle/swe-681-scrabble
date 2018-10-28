@@ -10,6 +10,14 @@ describe("Board", () => {
 		it("matches snapshot", () => {
 			expect(newBoard).toMatchSnapshot();
 		});
+
+		it("has 15 rows", () => {
+			expect(newBoard.tiles.length).toEqual(15);
+		});
+
+		it("has 15 columns", () => {
+			newBoard.tiles.forEach(row => expect(row.length).toEqual(15));
+		});
 	});
 
 	describe("isValidTile()", () => {

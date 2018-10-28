@@ -39,8 +39,172 @@ const tileTypes = [
 	startTile
 ];
 
+const row0 = [
+	tripleWordTile,
+	tile,
+	tile,
+	doubleLetterTile,
+	tile,
+	tile,
+	tile,
+	tripleWordTile,
+	tile,
+	tile,
+	tile,
+	doubleLetterTile,
+	tile,
+	tile,
+	tripleWordTile
+];
+
+const row1 = [
+	tile,
+	doubleWordTile,
+	tile,
+	tile,
+	tile,
+	tripleLetterTile,
+	tile,
+	tile,
+	tile,
+	tripleLetterTile,
+	tile,
+	tile,
+	tile,
+	doubleWordTile,
+	tile
+];
+
+const row2 = [
+	tile,
+	tile,
+	doubleWordTile,
+	tile,
+	tile,
+	tile,
+	doubleLetterTile,
+	tile,
+	doubleLetterTile,
+	tile,
+	tile,
+	tile,
+	doubleWordTile,
+	tile,
+	tile
+];
+
+const row3 = [
+	doubleLetterTile,
+	tile,
+	tile,
+	doubleWordTile,
+	tile,
+	tile,
+	tile,
+	doubleLetterTile,
+	tile,
+	tile,
+	tile,
+	doubleWordTile,
+	tile,
+	tile,
+	doubleLetterTile
+];
+
+const row4 = [
+	tile,
+	tile,
+	tile,
+	tile,
+	doubleWordTile,
+	tile,
+	tile,
+	tile,
+	tile,
+	tile,
+	doubleWordTile,
+	tile,
+	tile,
+	tile,
+	tile
+];
+
+const row5 = [
+	tile,
+	tripleLetterTile,
+	tile,
+	tile,
+	tile,
+	tripleLetterTile,
+	tile,
+	tile,
+	tile,
+	tripleLetterTile,
+	tile,
+	tile,
+	tile,
+	tripleLetterTile,
+	tile
+];
+
+const row6 = [
+	tile,
+	tile,
+	doubleLetterTile,
+	tile,
+	tile,
+	tile,
+	doubleLetterTile,
+	tile,
+	doubleLetterTile,
+	tile,
+	tile,
+	tile,
+	doubleLetterTile,
+	tile,
+	tile
+];
+
+const row7 = [
+	tripleWordTile,
+	tile,
+	tile,
+	doubleLetterTile,
+	tile,
+	tile,
+	tile,
+	startTile,
+	tile,
+	tile,
+	tile,
+	doubleLetterTile,
+	tile,
+	tile,
+	tripleWordTile
+];
+
 export function newBoard() {
-	return {};
+	return JSON.parse(
+		JSON.stringify({
+			tiles: [
+				row0,
+				row1,
+				row2,
+				row3,
+				row4,
+				row5,
+				row6,
+				row7,
+				row6,
+				row5,
+				row4,
+				row3,
+				row2,
+				row1,
+				row0
+			]
+		})
+	);
 }
 
 export function isValidTile(tile) {
