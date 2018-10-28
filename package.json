@@ -59,7 +59,7 @@
     "clean-all": "npm run clean && rm -rf node_modules",
     "react-start": "node scripts/start.js",
     "react-build": "node scripts/build.js",
-    "heroku-post-build": "npm run react-build"
+    "heroku-postbuild": "npm run react-build"
   },
   "eslintConfig": {
     "extends": "react-app"
