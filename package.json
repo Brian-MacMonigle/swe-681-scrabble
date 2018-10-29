@@ -65,7 +65,10 @@
     "extends": [
       "react-app",
       "eslint:recommended"
-    ]
+    ],
+    "rules": {
+      "no-console": "warn"
+    }
   },
   "browserslist": [
     ">0.2%",
@@ -114,5 +117,7 @@
       "react-app"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  }
 }
