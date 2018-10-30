@@ -9,10 +9,11 @@
 		"clean-all": "npm run clean && rm -rf node_modules",
 		"react-start": "node scripts/start.js",
 		"react-build": "node scripts/build.js",
-		"heroku-postbuild": "npm run react-build"
+		"heroku-postbuild": "npm run react-build",
+		"install-npm-packages": "npm run clean-all && npm install"
 	},
 	"pre-commit": {
-		"run": ["test", "npm run clean-all", "npm install"]
+		"run": ["test", "install-npm-packages"]
 	},
 	"eslintConfig": {
 		"extends": ["react-app", "eslint:recommended"],
