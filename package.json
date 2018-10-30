@@ -11,7 +11,7 @@
 		"react-build": "node scripts/build.js",
 		"heroku-postbuild": "npm run react-build"
 	},
-	"precommit": {
+	"pre-commit": {
 		"run": ["test", "npm run clean-all", "npm install"]
 	},
 	"eslintConfig": {
