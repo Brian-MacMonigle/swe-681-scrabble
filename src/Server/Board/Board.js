@@ -183,7 +183,7 @@ const row7 = [
 	tripleWordTile
 ];
 
-export function newBoard() {
+function newBoard() {
 	return JSON.parse(
 		JSON.stringify({
 			tiles: [
@@ -207,7 +207,7 @@ export function newBoard() {
 	);
 }
 
-export function isValidTile(tile) {
+function isValidTile(tile) {
 	// ensure tile is one of the predefined types
 	const { letterPoints, wordPoints, letter, startTile } = tile;
 	if (
@@ -224,3 +224,5 @@ export function isValidTile(tile) {
 			type.startTile === startTile
 	);
 }
+
+module.exports = { newBoard, isValidTile };
