@@ -6,11 +6,12 @@
 		"start": "node src/Server/index.js",
 		"test": "jest --color",
 		"clean": "rm -rf build",
-		"clean-all": "npm run clean && rm -rf node_modules",
+		"clean-packages": "rm -rf node_modules package-lock.json yarn.lock",
+		"clean-all": "yarn clean && yarn clean-packages",
 		"react-start": "node scripts/start.js",
 		"react-build": "node scripts/build.js",
-		"heroku-postbuild": "npm run react-build",
-		"npm-install-precommit-hook": "npm run clean-all && npm install"
+		"heroku-postbuild": "yarn react-build",
+		"pre-commit-hook": "yarn test"
 	},
 	"eslintConfig": {
 		"extends": ["react-app", "eslint:recommended"],
