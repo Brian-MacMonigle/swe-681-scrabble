@@ -19,3 +19,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# dont add yarn lock.  Package.json forces clean-all and npm install for an npm deployment
+yarn.lock
