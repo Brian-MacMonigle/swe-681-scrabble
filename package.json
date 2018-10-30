@@ -10,10 +10,7 @@
 		"react-start": "node scripts/start.js",
 		"react-build": "node scripts/build.js",
 		"heroku-postbuild": "npm run react-build",
-		"install-npm-packages": "npm run clean-all && npm install"
-	},
-	"pre-commit": {
-		"run": ["test", "install-npm-packages"]
+		"npm-install-precommit-hook": "npm run clean-all && npm install"
 	},
 	"eslintConfig": {
 		"extends": ["react-app", "eslint:recommended"],
