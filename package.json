@@ -14,28 +14,18 @@
 		"pre-commit-hook": "yarn test"
 	},
 	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"eslint:recommended"
-		],
+		"extends": ["react-app", "eslint:recommended"],
 		"rules": {
-			"no-console": "warn"
+			"no-console": "warn",
+			"no-unused-vars": "warn",
+			"no-undef": "warn"
 		}
 	},
-	"browserslist": [
-		">0.2%",
-		"not dead",
-		"not ie <= 11",
-		"not op_mini all"
-	],
+	"browserslist": [">0.2%", "not dead", "not ie <= 11", "not op_mini all"],
 	"jest": {
-		"collectCoverageFrom": [
-			"src/**/*.{js,jsx}"
-		],
+		"collectCoverageFrom": ["src/**/*.{js,jsx}"],
 		"resolver": "jest-pnp-resolver",
-		"setupFiles": [
-			"react-app-polyfill/jsdom"
-		],
+		"setupFiles": ["react-app-polyfill/jsdom"],
 		"testMatch": [
 			"<rootDir>/src/**/__tests__/**/*.{js,jsx}",
 			"<rootDir>/src/**/?(*.)(spec|test).{js,jsx}"
@@ -65,9 +55,7 @@
 		]
 	},
 	"babel": {
-		"presets": [
-			"react-app"
-		]
+		"presets": ["react-app"]
 	},
 	"dependencies": {
 		"@babel/core": "7.1.0",
@@ -122,6 +110,7 @@
 	},
 	"devDependencies": {
 		"babel-cli": "^6.26.0",
+		"react-router-dom": "^4.3.1",
 		"styled-components": "^4.0.3"
 	}
 }
