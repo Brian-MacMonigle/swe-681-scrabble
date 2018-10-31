@@ -14,11 +14,13 @@ app.get("/hello/world", (req, res) => {
 });
 
 app.get("/api/board/new", (req, res) => {
-	res.send(Board.newBoard());
+	console.log("/api/board/new");
+	res.json(Board.newBoard());
 });
 
 // If no other url called, return the react app.  Most connections will follow this route.
 app.get("*", (req, res) => {
+	console.log(req.originalUrl);
 	res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
