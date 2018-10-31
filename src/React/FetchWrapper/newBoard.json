@@ -1,0 +1,1384 @@
+{
+  "tiles": [
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 3,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 3,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 3,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 3,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": true
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 3,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 3,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 2,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      }
+    ],
+    [
+      {
+        "letterPoints": 1,
+        "wordPoints": 3,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 3,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 2,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 1,
+        "letter": " ",
+        "startTile": false
+      },
+      {
+        "letterPoints": 1,
+        "wordPoints": 3,
+        "letter": " ",
+        "startTile": false
+      }
+    ]
+  ]
+}
