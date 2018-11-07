@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "./default.css";
 
 import * as serviceWorker from "./serviceWorker";
 import DomWrapper from "./DomWrapper";
