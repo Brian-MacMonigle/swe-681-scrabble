@@ -6,7 +6,7 @@ export const JUST_BOARD = "/just/board";
 
 const allRoutes = [HOME, JUST_BOARD];
 
-export const LinkTo = ({ to, ...props }) => {
+export const LinkTo = ({ to, alwaysReturn, ...props }) => {
 	if (!allRoutes.find(route => route === to)) {
 		return <NavLink to={HOME} />;
 	}

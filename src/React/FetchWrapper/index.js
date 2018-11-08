@@ -1,7 +1,12 @@
 import newBoard from "./newBoard.json";
 import { isDevelopment } from "../Environment";
 
-function hardCodedDevelopmentApiResponses(path) {
+function hardCodedDevelopmentApiResponses(path, alwaysReturn) {
+	if (alwaysReturn) {
+		return new Promise((resolve, reject) => {
+			resolve(alwaysReturn);
+		});
+	}
 	const pathMap = {
 		"/board/new": newBoard
 	};
@@ -10,13 +15,13 @@ function hardCodedDevelopmentApiResponses(path) {
 	});
 }
 
-export function getJSONFromServer(path) {
+export function getJSONFromServer(path, alwaysReturn) {
 	if (typeof path !== "string") {
 		return Promise.reject("path must be a string");
 	}
 
 	if (isDevelopment) {
-		return hardCodedDevelopmentApiResponses(path);
+		return hardCodedDevelopmentApiResponses(path, alwaysReturn);
 	}
 
 	const url = "/api" + path;
