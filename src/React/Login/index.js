@@ -25,7 +25,7 @@ class LoginPage extends Component {
         const { email, password } = this.state;
 
         this.props
-            .create(email, password)
+            .login(email, password)
             .then(() => {
                 this.setState({ ...INITIAL_STATE });
             })
