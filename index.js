@@ -22,20 +22,21 @@ app.use(express.static(path.join(__dirname, "build")));
 function handleLoginResult(res, result) {
 	if(Result.isError(result)) {
 		res.send(result);
+		return;
 	} else {
 		// get token from result and set as cookie.  We overwrite any existing cookie
 		const { username = '', loginToken = ''} = Result.getMessage(result);
 		if(!loginToken || !username) {
-			console.log('Internal server error: ', result);
-			res.send('Internal server error.  Please try again.');
+			throw new Error('Result doesn\'t contain loginToken or username: ' + JSON.stringify(result));
+		} else {
+			Cookie.createInRes(res, username, loginToken);
+			res.send(result);
 		}
-		Cookie.createInRes(res, username, loginToken);
-		res.send(result);
 	}
 }
 
 function handleLoginError(res, error) {
-	console.log('Interanal server error: ', error);
+	console.error('Internal server error: ', error);
 	res.send(Result.createError('Internal server error.  Please try again.'));
 }
 

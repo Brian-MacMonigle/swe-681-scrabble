@@ -262,10 +262,11 @@ async function loginWithToken(username, token) {
 	}
 
 	// Valid token, good to go.
-	const tokenResult = createAndAddLoginToken(sanitizedUsername);
+	const tokenResult = await createAndAddLoginToken(sanitizedUsername);
 	if(Result.isError(tokenResult)) {
 		return tokenResult;
 	}
+
 	Log.log('Account', 'login', 'Logged in with token: ', { username, sanitizedUsername, token: !!token });
 		return Result.create({
 			username,
