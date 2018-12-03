@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import Styled from 'styled-components';
 
@@ -17,22 +18,23 @@ const Title = Styled.h1`
 	text-align: center;
 `;
 
-class ResgisterForm extends Component{
+class Register extends Component{
     constructor(props){
         super(props);
 
         this.state = { ...INITIAL_STATE}
     }
     onSubmit = event => {
-        const {  email, passwordOne } = this.state;
-
-        this.props
-            .create(email, passwordOne)
+        const {email, password} = this.state;
+        axios.post("localhost:3000",)
+        this.props.Database
+            .create(email, password)
             .then(() => {
-                this.setState({ ...INITIAL_STATE });
+                this.setState({...INITIAL_STATE});
             })
+        console.log("Submit email: ", email, "pwd: ", password)
             .catch(error => {
-                this.setState({ error });
+                this.setState({error});
             });
 
         event.preventDefault();
@@ -45,21 +47,21 @@ class ResgisterForm extends Component{
         const {
             username,
             email,
-            passwordOne,
+            password,
             passwordTwo,
             error,
         } = this.state;
 
         const isInvalid =
-            passwordOne !== passwordTwo ||
-            passwordOne === '' ||
+            password !== passwordTwo ||
+            password === '' ||
             email === '' ||
             username === '';
 
         return (
             <React.Fragment>
                 <Title>
-                    <h1>Register</h1>
+                    Register
                     <form onSubmit={this.onSubmit}>
                         <input
                             name="username"
@@ -67,6 +69,7 @@ class ResgisterForm extends Component{
                             onChange={this.onChange}
                             type="text"
                             placeholder="Full Name"
+
                         />
                         <input
                             name="email"
@@ -74,10 +77,11 @@ class ResgisterForm extends Component{
                             onChange={this.onChange}
                             type="text"
                             placeholder="Email Address"
+
                         />
                         <input
-                            name="passwordOne"
-                            value={passwordOne}
+                            name="password"
+                            value={password}
                             onChange={this.onChange}
                             type="password"
                             placeholder="Password"
@@ -101,4 +105,4 @@ class ResgisterForm extends Component{
     }
 }
 
-export default ResgisterForm;
+export default Register;
