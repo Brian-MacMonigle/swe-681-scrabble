@@ -24,7 +24,7 @@ const VALIDATION_KEYS = {
 const ERROR_MESSAGES = {
 	[VALIDATION_KEYS.invalidUsername]: "The username you have entered is invalid.  Please make sure it is between 3 and 256 characters and it only contains letters, numbers, and the characters ',', '@', '.'.",
 	[VALIDATION_KEYS.invalidPassword]: "The password you have entered is invalid.  Your password may be between 3 and 256 characters long and only contain letters, numbers, spaces, and the symbols '!', '\"', '#', '$', '%', '&', ''', '(', ')', '*', '+', ',', '\\', '/', ':', ';', '<', '=', '>', '@', '[', ']', '^', '_', '`', '{', '|', '}', '~'.",
-	[VALIDATION_KEYS.invalidToken]: 'The token has expired.  Please login with your username.',
+	[VALIDATION_KEYS.invalidToken]: 'The token has expired.  Please login with your username and password.',
 	[VALIDATION_KEYS.usernameAlreadyExists]: 'The username you have entered already exists.  Please try a different username.',
 	[VALIDATION_KEYS.badUsernamePasswordLogin]: 'The username and password combination is incorrect.',
 	[VALIDATION_KEYS.internalServerError]: 'There was an internal server error.  Please try again.',
@@ -81,8 +81,13 @@ function defaultValidation(username, password) {
 }
 
 // Expects username to be valid and sanitized
-async function getUser(username, extraPath = "") {
-	return await Database.read(`user/${username}/${extraPath}`);;
+async function getUser(username) {
+	const sanitizedUsername = sanitizeUsername(username);
+	const error = validateInputs({ value: username, func: isValidUsername, key: VALIDATION_KEYS.invalidUsername });
+	if(Result.isError(error)) {
+		return error;
+	}
+	return await Database.read(`user/${username}`);;
 }
 
 async function doesUserExist(username) {
@@ -163,7 +168,8 @@ async function validateLoginToken(username, token) {
 		return error;
 	}
 
-	const tokens = await getUser(username, '/account/tokens');
+	// already validated, assume no error from getUser()
+	const { account: { tokens = []} = {} } = await getUser(username) || {};
 	return !!tokens.find(({t}) => token === t);
 }
 
@@ -215,6 +221,7 @@ async function login(username, password) {
 
 
 	// Get the user account
+	// already validated, assume no error from getUser()
 	const { account: userData, } = await getUser(sanitizedUsername) || {};
 
 	const { salt = '', hashedPassword = '', username: databaseUsername} = userData;
@@ -271,7 +278,7 @@ module.exports = {
 		create, 
 		login,
 		loginWithToken,
+		doesUserExist, 
+		getUser,
 	},
-	doesUserExist, 
-	getUser
 };
