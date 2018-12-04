@@ -1,4 +1,4 @@
-import axios from 'axios';
+
 import React, { Component } from 'react';
 import Styled from 'styled-components';
 
@@ -26,13 +26,12 @@ class Register extends Component{
     }
     onSubmit = event => {
         const {email, password} = this.state;
-        axios.post("localhost:3000",)
+
         this.props.Database
             .create(email, password)
             .then(() => {
                 this.setState({...INITIAL_STATE});
             })
-        console.log("Submit email: ", email, "pwd: ", password)
             .catch(error => {
                 this.setState({error});
             });
