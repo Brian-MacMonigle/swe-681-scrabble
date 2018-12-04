@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-import { FetchedBoard } from "./Board";
+import Register from "./Register";
 
 // eslint-disable-next-line no-unused-vars
 class App2 extends Component {
@@ -30,7 +30,7 @@ class App2 extends Component {
 
 class App extends Component {
   render() {
-    return <FetchedBoard />;
+    return <Register />;
   }
 }
 
