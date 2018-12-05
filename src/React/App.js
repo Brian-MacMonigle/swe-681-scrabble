@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { BrowserRouter, Route} from 'react-router-dom';
+import Navigation from './Navigation'
+import Register from './Register';
+import Login from './Login';
+import FetchedBoard from './Board';
+import Home from './Home';
 
-import Register from "./Register";
+import * as ROUTES from './constants/routes';
+
 
 // eslint-disable-next-line no-unused-vars
 class App2 extends Component {
@@ -30,7 +37,21 @@ class App2 extends Component {
 
 class App extends Component {
   render() {
-    return <Register />;
+    return(
+      <BrowserRouter>
+        <div>
+        <Navigation />
+
+        <hr />
+
+          <Route exact path={ROUTES.HOME} component={Home} />
+          <Route path={ROUTES.REGISTER} component={Register} />
+          <Route path={ROUTES.LOGIN} component={Login} />
+          <Route path={ROUTES.GAME} component={FetchedBoard} />
+
+      </div>
+      </BrowserRouter>
+    )
   }
 }
 

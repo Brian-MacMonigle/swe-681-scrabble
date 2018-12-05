@@ -1,4 +1,6 @@
+import 'firebase/auth';
 const firebase = require('firebase');
+
 var firebaseConfig = {
 	apiKey: "AIzaSyBtDBkKYzpXYN8yvBfvxKZ1NvW6OBhF5Ic",
 	authDomain: "swe-681-srabble.firebaseapp.com",
@@ -7,6 +9,8 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
+this.auth = database.auth();
+
 
 function write(path, data) {
 	database.ref(path).set({
@@ -15,8 +19,8 @@ function write(path, data) {
 }
 
 async function writeTransaction(
-		path, 
-		callback, 
+		path,
+		callback,
 		onComplete,
 		applyLocally = false
 	) {
