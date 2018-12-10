@@ -28,7 +28,6 @@ class DomWrapper extends React.Component {
     const { username } = getCookie(COOKIE_NAME);
     if(username) {
       const res = await postJSONFromServer('/account/login/token');
-      console.log('tryLoginWithCookie: ', this, '\nusername: ', username, '\nres: ', res);
       if(res.success) {
         this.setLoginState(username);
       }

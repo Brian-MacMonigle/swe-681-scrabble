@@ -41,9 +41,6 @@ const INITIAL_STATE = {
 class LoginPage extends Component {
     constructor(props) {
         super(props);
-
-        console.log("LoginPage: ", this);
-
         this.state = { ...INITIAL_STATE };
     }
 
