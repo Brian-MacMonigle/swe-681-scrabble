@@ -8,7 +8,6 @@ import { getCookie } from '../Cookie';
 import { postJSONFromServer } from '../FetchWrapper';
 import Header from './Header'
 import Register from '../Register';
-import Login from '../Login';
 import FetchedBoard from '../Board';
 import Home from '../Home';
 
@@ -25,7 +24,7 @@ class DomWrapper extends React.Component {
     this.tryLoginWithCookie();
   }
 
-  async tryLoginWithCookie() {
+  tryLoginWithCookie = async () => {
     const { username } = getCookie(COOKIE_NAME);
     if(username) {
       const res = await postJSONFromServer('/account/login/token');
@@ -36,11 +35,11 @@ class DomWrapper extends React.Component {
     }
   }
 
-  getLoginState() {
+  getLoginState = () => {
     return this.state.loginState;
   }
 
-  setLoginState(username) {
+  setLoginState = (username) => {
     this.setState({
       loginState: {
         username,
@@ -52,19 +51,13 @@ class DomWrapper extends React.Component {
     return(
       <BrowserRouter>
         <div>
-          <Header />
+          <Header 
+            setLoginState={this.setLoginState}
+            loginState={this.state.loginState}
+          />
           <hr />
           <Route exact path={ROUTES.HOME} component={Home} />
           <Route path={ROUTES.REGISTER} component={Register} />
-          <Route 
-            path={ROUTES.LOGIN} 
-            render={() => 
-              <Login 
-                setLoginState={this.setLoginState} 
-                getLoginState={this.getLoginState} 
-              />
-            } 
-          />
           <Route path={ROUTES.GAME} component={FetchedBoard} />
         </div>
       </BrowserRouter>

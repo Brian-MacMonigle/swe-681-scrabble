@@ -36,22 +36,12 @@ function handleLoginResult(res, result) {
 			throw new Error('Result doesn\'t contain loginToken or username: ' + JSON.stringify(result));
 		} else {
 			Cookie.createInRes(res, username, loginToken);	
-			const cookie = [
-				'some-cookie',
-				{
-					hello: 'world!',
-				},
-				{
-					maxAge: 10000,
-				},
-			];
-			res.cookie(...cookie);
 			res.send(result);
 		}
 	}
 }
 
-function handleLoginError(res, error) {
+function handleInternalError(res, error) {
 	console.error('Internal server error: ', error);
 	res.send(Result.createError('Internal server error.  Please try again.'));
 }
@@ -61,27 +51,37 @@ app.post('/api/account/create', (req, res) => {
 	console.log('/api/account/create called with: ', '\nbody: ', req.body);
 	Account.create(username, password)
 		.then(result => handleLoginResult(res, result))
-		.catch(error => handleLoginError(res, error));
+		.catch(error => handleInternalError(res, error));
 });
 
 app.post('/api/account/login', (req, res) => {
 	const { username, password } = req.body;
 	Account.login(username, password)
 		.then(result => handleLoginResult(res, result))
-		.catch(error => handleLoginError(res, error));
+		.catch(error => handleInternalError(res, error));
 });
 
 app.post('/api/account/login/token', (req, res) => {
 	const { username, token } = Cookie.getFromReq(req);
-	console.log('/api/account/login/token: ', '\nusername: ', username, '\ntoken: ', token);
 	Account.loginWithToken(username, token)
 		.then(result => handleLoginResult(res, result))
-		.catch(error => handleLoginError(res, error));
+		.catch(error => handleInternalError(res, error));
 })
 
+app.all('/api/account/logout', (req, res) => {
+	const { username, token } = Cookie.getFromReq(req);
+	Cookie.deleteInRes(res);
+	res.send(Result.create(`Logout of ${username} successful.`));
+});
+
 app.get("/api/board/new", (req, res) => {
-	console.log("/api/board/new");
 	res.json(Board.newBoard());
+});
+
+app.all("/api/*", (req, res) => {
+	res.send(Result.createError(
+		`The path ${req.path} is not a valid api call.`
+	));
 });
 
 // If no other url called, return the react app.  Most connections will follow this route.

@@ -23,4 +23,8 @@ function createInRes(res, username, token) {
 	return true;
 }
 
-module.exports = { createInRes, getFromReq };
+function deleteInRes(res) {
+	res.clearCookie(COOKIE_NAME);
+}
+
+module.exports = { createInRes, getFromReq, deleteInRes };
