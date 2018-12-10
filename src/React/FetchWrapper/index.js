@@ -1,13 +1,6 @@
-import newBoard from "./newBoard.json";
-import { isDevelopment } from "../Environment";
-
-function hardCodedDevelopmentApiResponses(path) {
-	const pathMap = {
-		"/board/new": newBoard
-	};
-	return new Promise((resolve, reject) => {
-		resolve(pathMap[path] || {});
-	});
+function getUrl(path) {
+	const url = "/api" + path;
+	return url;
 }
 
 export function getJSONFromServer(path) {
@@ -15,15 +8,31 @@ export function getJSONFromServer(path) {
 		return Promise.reject("path must be a string");
 	}
 
-	if (isDevelopment) {
-		return hardCodedDevelopmentApiResponses(path);
-	}
-
-	const url = "/api" + path;
 	const options = {
 		headers: {
-			"Content-Type": "application/json; charset=utf-8"
+			"Content-Type": "application/json; charset=utf-8",
 		}
 	};
-	return fetch(url, options).then(res => res.json());
+
+	return fetch(getUrl(path), options)
+		.then(res => res.json())
+		.catch(error => ({ error }));
+}
+
+export function postJSONFromServer(path, data) {
+	if (typeof path !== "string") {
+		return Promise.reject("path must be a string");
+	}
+
+	const options = {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	}
+
+	return fetch(getUrl(path), options)
+		.then(res => res.json())
+		.catch(error => ({ error }));
 }

@@ -1,0 +1,1 @@
+export const COOKIE_NAME = 'swe-681-scrabble-login';

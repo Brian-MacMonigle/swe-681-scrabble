@@ -19,6 +19,12 @@ app.use(cookieParser());
 // Serve static files from the React app (.css, .js, .png, ...)
 app.use(express.static(path.join(__dirname, "build")));
 
+// Console.log all requests for debugging
+app.use((req, res, next) => {
+	console.log('Request at path: ', req.path, '\nwith body: ', req.body);
+	next();
+});
+
 function handleLoginResult(res, result) {
 	if(Result.isError(result)) {
 		res.send(result);
@@ -29,7 +35,17 @@ function handleLoginResult(res, result) {
 		if(!loginToken || !username) {
 			throw new Error('Result doesn\'t contain loginToken or username: ' + JSON.stringify(result));
 		} else {
-			Cookie.createInRes(res, username, loginToken);
+			Cookie.createInRes(res, username, loginToken);	
+			const cookie = [
+				'some-cookie',
+				{
+					hello: 'world!',
+				},
+				{
+					maxAge: 10000,
+				},
+			];
+			res.cookie(...cookie);
 			res.send(result);
 		}
 	}
@@ -42,6 +58,7 @@ function handleLoginError(res, error) {
 
 app.post('/api/account/create', (req, res) => {
 	const { username, password } = req.body;
+	console.log('/api/account/create called with: ', '\nbody: ', req.body);
 	Account.create(username, password)
 		.then(result => handleLoginResult(res, result))
 		.catch(error => handleLoginError(res, error));
@@ -54,9 +71,9 @@ app.post('/api/account/login', (req, res) => {
 		.catch(error => handleLoginError(res, error));
 });
 
-app.post('/api/account/loginWithToken', (req, res) => {
-	const { username } = req.body;
-	const { token } = Cookie.getFromReq(req);
+app.post('/api/account/login/token', (req, res) => {
+	const { username, token } = Cookie.getFromReq(req);
+	console.log('/api/account/login/token: ', '\nusername: ', username, '\ntoken: ', token);
 	Account.loginWithToken(username, token)
 		.then(result => handleLoginResult(res, result))
 		.catch(error => handleLoginError(res, error));

@@ -174,6 +174,7 @@ async function validateLoginToken(username, token) {
 }
 
 async function create(username, password) {
+	console.log('Create: ', username, password);
 	// Validate input
 	sanitizedUsername = sanitizeUsername(username);
 	const error = defaultValidation(sanitizedUsername, password);
