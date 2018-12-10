@@ -70,8 +70,12 @@ app.post('/api/account/login/token', (req, res) => {
 
 app.all('/api/account/logout', (req, res) => {
 	const { username, token } = Cookie.getFromReq(req);
-	Cookie.deleteInRes(res);
-	res.send(Result.create(`Logout of ${username} successful.`));
+	if(username && token) {
+		Cookie.deleteInRes(res);
+		res.send(Result.create(`Logout of ${username} successful.`));
+	} else {
+		res.send(Result.error(`Was not able to logout due to missing or corruped cookie.`));
+	}
 });
 
 app.get("/api/board/new", (req, res) => {
