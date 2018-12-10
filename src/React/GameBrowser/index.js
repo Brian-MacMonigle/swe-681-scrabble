@@ -3,6 +3,34 @@ import Styled from 'styled-components';
 
 import Table from '../Table';
 
+const tableHeaders = [
+	{
+		Header: "Game Name",
+		accessor: 'name',
+	},
+	{
+		Header: "Host",
+		accessor: 'host',
+	},
+	{
+		Header: "Players",
+		accessor: (cell) => `${cell.players}/2`,
+	},
+	{
+		Header: "Join Game",
+		accessor: 'join',
+	},
+]
+
+const fakeData = [
+	{
+		name: 'Brian\'s Game',
+		host: 'Brian',
+		players: 0,
+		join: <button onClick={() => alert('heyyy')}>Join Game</button>
+	}
+]
+
 const TitleWrapper = Styled.h1`
 `;
 
@@ -22,20 +50,29 @@ class GameBrowser extends React.Component {
 					<TitleWrapper>
 						Current Games
 					</TitleWrapper>
-					<Table>
-					</Table>
+					<Table
+
+					/>
 				</React.Fragment>
 			);
 		}
 
 		return (
 			<React.Fragment>
+				<TitleWrapper>
+					<button>
+						Host Game
+					</button>
+				</TitleWrapper>
 				{userGames}
 				<TitleWrapper>
 					All Games
 				</TitleWrapper>
-				<Table>
-				</Table>
+				<Table
+					headers={tableHeaders}
+					data={fakeData}
+					className="-striped -highlight"
+				/>
 			</React.Fragment>
 		);
 	}
