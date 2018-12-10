@@ -36,3 +36,34 @@ export function postJSONFromServer(path, data) {
 		.then(res => res.json())
 		.catch(error => ({ error }));
 }
+
+function isError(result) {
+	return !!result && !!result.error;
+}
+
+function isSuccess(result) {
+	return !isError(result);
+}
+
+function getErrorMessage(result) {
+	return result.error;
+}
+
+function getSuccessMessage(result) {
+	return result.success;
+}
+
+function getMessage(result) {
+	if(isError(result)) {
+		return getErrorMessage(result);
+	}
+	return getSuccessMessage(result);
+}
+
+export default { 
+	isError, 
+	isSuccess, 
+	getErrorMessage, 
+	getSuccessMessage, 
+	getMessage 
+}

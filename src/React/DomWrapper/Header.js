@@ -2,7 +2,7 @@ import React from 'react';
 import Styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import * as ROUTES from '../constants/routes';
+import * as ROUTES from '../Constants/Routes';
 import Login from './Login';
 
 const HeaderWrapper = Styled.div`
@@ -14,10 +14,10 @@ const Header = (props) => (
     <HeaderWrapper>
         <ul>
             <li>
-                <Link to={ROUTES.LOGIN}>Login</Link>
+                <Link to={ROUTES.HOME}>Home</Link>
             </li>
             <li>
-                <Link to={ROUTES.HOME}>Home</Link>
+                <Link to={ROUTES.GAME_BROWSER}>Game Browser</Link>
             </li>
             <li>
                 <Link to={ROUTES.GAME}>Game</Link>

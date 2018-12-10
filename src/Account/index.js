@@ -38,15 +38,15 @@ function sanitizeUsername(username = '') {
 	return username.replace(/[.]/g, ',');
 }
 
-function isValidUsername(username) {
+function isValidUsername(username = '') {
 	return !!username.match(/^[A-Za-z0-9,@]{3,256}$/g);
 }
 
-function isValidPassword(password) {
+function isValidPassword(password = '') {
 	return !!password.match(/^[A-Za-z0-9 !"#$%&'()*+,\-.\/:;<=>?@[\]^_`{|}~]{3,256}$/g);
 }
 
-function isValidToken(token) {
+function isValidToken(token = '') {
 	return !!token.match(/^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/g);
 }
 
@@ -223,7 +223,7 @@ async function login(username, password) {
 
 	// Get the user account
 	// already validated, assume no error from getUser()
-	const { account: userData, } = await getUser(sanitizedUsername) || {};
+	const { account: userData } = await getUser(sanitizedUsername) || {};
 
 	const { salt = '', hashedPassword = '', username: databaseUsername} = userData;
 	const loginHashedPassword = hashPassword(password, salt);
@@ -245,7 +245,7 @@ async function login(username, password) {
 	});
 }
 
-async function loginWithToken(username, token) {
+function validateDataRequest(username, token) {
 	// Input validation.  validateLoginToken() also validates username.
 	const sanitizedUsername = sanitizeUsername(username);
 	const validToken = validateLoginToken(username, token);
@@ -255,11 +255,20 @@ async function loginWithToken(username, token) {
 	// token was not valid
 	}
 
-	Log.log('Account', 'loginWithToken', 'Attempting to log in with token: ', { username, sanitizedUsername, token: !!token });
-
+	Log.log('Account', 'validateDataRequest', 'Attempting to log in with token: ', { username, sanitizedUsername, token: !!token });
+	
 	if(!validToken) {
-		Log.log('Account', 'loginWithToken', 'Login token invalid: ', { username, sanitizedUsername, token: !!token });
+		Log.log('Account', 'validateDataRequest', 'Login token invalid: ', { username, sanitizedUsername, token: !!token });
 		return createErrorWithKey(VALIDATION_KEYS.invalidToken);
+	}
+
+	return Result.create('Valid username and token');
+}
+
+async function loginWithToken(username, token) {
+	const res = validateDataRequest(username, token);
+	if(Result.isError(res)) {
+		return res;
 	}
 
 	// Valid token, good to go.
@@ -275,6 +284,32 @@ async function loginWithToken(username, token) {
 		});
 }
 
+async function getUserData(username, token) {
+	const res = validateDataRequest(username, token);
+	if(Result.isError(res)) {
+		return res;
+	}
+
+	const { data = {} } = await getUser(username);
+
+	Log.log('Account', 'getUserData', 'Retrieved user data: ', { username, sanitizedUsername, data});
+
+	return Result.create({
+		data,
+	});
+}
+
+async function updateUserData(username, token, data) {
+	const res = validateDataRequest(username, token);
+	if(Result.isError(res)) {
+		return res;
+	}
+
+	writeUser(username, '/data', data);
+
+	return Result.create('Wrote data to server.');
+}
+
 module.exports = {
 	validated: {
 		create, 
@@ -282,5 +317,7 @@ module.exports = {
 		loginWithToken,
 		doesUserExist, 
 		getUser,
+		getUserData,
+		updateUserData,
 	},
 };

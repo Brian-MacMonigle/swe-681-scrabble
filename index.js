@@ -25,47 +25,62 @@ app.use((req, res, next) => {
 	next();
 });
 
-function handleLoginResult(res, result) {
+async function addUserData(result) {
 	if(Result.isError(result)) {
-		res.send(result);
-		return;
-	} else {
+		return result;
+	}
+	const { username, token } = Result.getMessage(result);
+	const { data } = await Account.getUserData(username, token);
+	return Result.create({
+		...Result.getMessage(result),
+		data,
+	});
+}
+
+function addLoginCookie(res, result) {
+	if(Result.isSuccess(result)) {
 		// get token from result and set as cookie.  We overwrite any existing cookie
 		const { username = '', loginToken = ''} = Result.getMessage(result);
 		if(!loginToken || !username) {
 			throw new Error('Result doesn\'t contain loginToken or username: ' + JSON.stringify(result));
 		} else {
 			Cookie.createInRes(res, username, loginToken);	
-			res.send(result);
 		}
 	}
+	return result;
 }
 
-function handleInternalError(res, error) {
+function handleInternalError(error) {
 	console.error('Internal server error: ', error);
-	res.send(Result.createError('Internal server error.  Please try again.'));
+	return Result.createError('Internal server error.  Please try again.');
 }
 
 app.post('/api/account/create', (req, res) => {
 	const { username, password } = req.body;
 	console.log('/api/account/create called with: ', '\nbody: ', req.body);
 	Account.create(username, password)
-		.then(result => handleLoginResult(res, result))
-		.catch(error => handleInternalError(res, error));
+		.then(result => addLoginCookie(res, result))
+		.then(result => addUserData(result))
+		.catch(error => handleInternalError(error))
+		.then(result => res.send(result));
 });
 
 app.post('/api/account/login', (req, res) => {
 	const { username, password } = req.body;
 	Account.login(username, password)
-		.then(result => handleLoginResult(res, result))
-		.catch(error => handleInternalError(res, error));
+		.then(result => addLoginCookie(res, result))
+		.then(result => addUserData(result))
+		.catch(error => handleInternalError(error))
+		.then(result => res.send(result));
 });
 
 app.post('/api/account/login/token', (req, res) => {
 	const { username, token } = Cookie.getFromReq(req);
 	Account.loginWithToken(username, token)
-		.then(result => handleLoginResult(res, result))
-		.catch(error => handleInternalError(res, error));
+		.then(result => addLoginCookie(res, result))
+		.then(result => addUserData(result))
+		.catch(error => handleInternalError(error))
+		.then(result => res.send(result));
 })
 
 app.all('/api/account/logout', (req, res) => {
@@ -78,8 +93,28 @@ app.all('/api/account/logout', (req, res) => {
 	}
 });
 
+app.get('/api/account/data', (req, res) => {
+	const { username, token } = Cookie.getFromReq(req);
+	Account.getUserData(username, token)
+		.catch(error => handleInternalError(error))
+		.then(result => res.send(result));
+});
+
+// TODO: Needs testing!
+app.post('/api/account/data', (req, res) => {
+	const { username, token } = Cookie.getFromReq(req);
+	const { ...data } = req.body;
+	Account.updateUserData(username, token, data)
+		.catch(error => handleInternalError(error))
+		.then(result => res.send(result));
+});
+
 app.get("/api/board/new", (req, res) => {
 	res.json(Board.newBoard());
+});
+
+app.get('/api/games/all', (req, res) => {
+	res.send(Result.createError('Not implemented yet'));
 });
 
 app.all("/api/*", (req, res) => {

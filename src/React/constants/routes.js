@@ -1,4 +1,3 @@
 export const HOME = '/';
-export const REGISTER = '/register';
-export const LOGIN ='/login';
+export const GAME_BROWSER = '/browser';
 export const GAME = '/game';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Styled from "styled-components";
 
-import { postJSONFromServer } from '../FetchWrapper';
+import Result, { postJSONFromServer } from '../FetchWrapper';
 
 const LoginWrapper = Styled.div`
     padding: 1em;
@@ -31,7 +31,6 @@ const LoggedInWrapper = Styled.div`
     }
 `;
 
-
 const INITIAL_STATE = {
     username: '',
     password: '',
@@ -44,26 +43,28 @@ class LoginPage extends Component {
         this.state = { ...INITIAL_STATE };
     }
 
-    updateLoginState = (username) => {
+    updateLoginState = (username, data) => {
         this.setState({ ...INITIAL_STATE });
         if(this.props.setLoginState) {
-            this.props.setLoginState(username);
+            this.props.setLoginState(username, data);
         }
     }
 
     onLogin = async (event) => {
         const { username, password } = this.state;
         const res = await postJSONFromServer('/account/login', { username, password });
-        if(res.success) {
-            this.updateLoginState(username);
+        if(Result.isSuccess(res)) {
+            const { username: resUser, data = {} } = Result.getMessage(res);
+            this.updateLoginState(resUser, data);
         }
     };
 
     onCreate = async (event) => {
         const { username, password } = this.state;
-        const res = await postJSONFromServer('/account/login', { username, password });
-        if(res.success) {
-            this.updateLoginState(username);
+        const res = await postJSONFromServer('/account/create', { username, password });
+        if(Result.isSuccess(res)) {
+            const { username: resUser, data = {} } = Result.getMessage(res);
+            this.updateLoginState(resUser, data);
         }
     }
 
@@ -78,9 +79,9 @@ class LoginPage extends Component {
 
         if(username) {
             const res = await postJSONFromServer('/account/logout');
-            if(res.success) {
-                // explicitly clear login state
-                this.updateLoginState(null);
+            if(Result.isSuccess(res)) {
+                const { username: resUser, data = {} } = Result.getMessage(res);
+                this.updateLoginState(resUser, data);
             }
         }
     }
