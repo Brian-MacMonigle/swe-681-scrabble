@@ -6,6 +6,9 @@ const TableWrapper = Styled.table`
 	margin: 1em;
 `;
 
+const TableBody = Styled.tbody`
+`;
+
 const HeaderRow = Styled.tr`
 `;
 
@@ -19,6 +22,7 @@ const Row = Styled.tr`
 
 const Cell = Styled.td`
 	border: 1px solid black;
+	${props => props.css}
 `;
 
 function resolveAccessor(cell, accessor) {
@@ -43,28 +47,31 @@ class Table extends React.Component {
 
 		return (
 			<TableWrapper>
-				<HeaderRow>
-					{headers.map((header, i) => (
-						<Header 
-							key={`table-header-${i}-${header.Header}`}
-						>
-							{header.Header}
-						</Header>
-					))}
-				</HeaderRow>
-				{data.map((cell, i) => (
-					<Row
-						key={`table-row-${i}-${cell.key || 'defaultKey'}`}
-					>
-						{headers.map((header, j) => (
-							<Cell
-								key={`table-row-cell-${i}-${j}-${cell.key || 'defaultKey'}`}
+				<TableBody>
+					<HeaderRow>
+						{headers.map((header, i) => (
+							<Header 
+								key={`table-header-${i}-${header.Header}`}
 							>
-								{resolveAccessor(cell, header.accessor)}
-							</Cell>
+								{header.Header}
+							</Header>
 						))}
-					</Row>
-				))}
+					</HeaderRow>
+					{data.map((cell, i) => (
+						<Row
+							key={`table-row-${i}-${cell.key || 'defaultKey'}`}
+						>
+							{headers.map((header, j) => (
+								<Cell
+									key={`table-row-cell-${i}-${j}-${cell.key || 'defaultKey'}`}
+									css={header.css}
+								>
+									{resolveAccessor(cell, header.accessor)}
+								</Cell>
+							))}
+						</Row>
+					))}
+				</TableBody>
 			</TableWrapper>
 		)
 	}

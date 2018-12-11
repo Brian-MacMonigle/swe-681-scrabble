@@ -17,6 +17,9 @@ const Header = (props) => (
                 <Link to={ROUTES.HOME}>Home</Link>
             </li>
             <li>
+                <Link to={ROUTES.HOST}>Host</Link>
+            </li>
+            <li>
                 <Link to={ROUTES.GAME_BROWSER}>Game Browser</Link>
             </li>
             <li>

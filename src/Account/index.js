@@ -87,7 +87,7 @@ async function getUser(username) {
 	if(Result.isError(error)) {
 		return error;
 	}
-	return await Database.read(`user/${username}`);;
+	return await Database.read(`user/${username}`);
 }
 
 async function doesUserExist(username) {
@@ -320,4 +320,6 @@ module.exports = {
 		getUserData,
 		updateUserData,
 	},
+	validateDataRequest,
+	sanitizeUsername,
 };

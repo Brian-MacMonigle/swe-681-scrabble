@@ -5,6 +5,7 @@ const path = require("path");
 const Result = require('./src/APICallResult');
 const Cookie = require('./src/Cookie');
 const Account = require('./src/Account').validated;
+const Games = require('./src/Games').validated;
 const Board = require("./src/Board");
 
 const app = express();
@@ -54,6 +55,8 @@ function handleInternalError(error) {
 	console.error('Internal server error: ', error);
 	return Result.createError('Internal server error.  Please try again.');
 }
+
+// User
 
 app.post('/api/account/create', (req, res) => {
 	const { username, password } = req.body;
@@ -109,19 +112,36 @@ app.post('/api/account/data', (req, res) => {
 		.then(result => res.send(result));
 });
 
+// Games
+
 app.get("/api/board/new", (req, res) => {
 	res.json(Board.newBoard());
 });
 
 app.get('/api/games/all', (req, res) => {
-	res.send(Result.createError('Not implemented yet'));
+	Games.getAll()
+		.catch(error => handleInternalError(error))
+		.then(result => res.send(result));
 });
+
+// TODO: Needs testing!
+app.post('/api/games/new', (req, res) => {
+	const { username, token } = Cookie.getFromReq(req);
+	const { ...gameData } = req.body;
+	Games.newGame(username, token, gameData)
+		.catch(error => handleInternalError(error))
+		.then(result => res.send(result));
+});
+
+// API Default
 
 app.all("/api/*", (req, res) => {
 	res.send(Result.createError(
 		`The path ${req.path} is not a valid api call.`
 	));
 });
+
+// React Webpage
 
 // If no other url called, return the react app.  Most connections will follow this route.
 app.get("*", (req, res) => {

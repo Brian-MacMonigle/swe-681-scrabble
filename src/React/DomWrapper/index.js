@@ -7,9 +7,10 @@ import { COOKIE_NAME } from '../Constants/Cookies';
 import { getCookie } from '../Cookie';
 import Result, { postJSONFromServer } from '../FetchWrapper';
 import Header from './Header';
+import Home from '../Home';
+import Host from '../Host';
 import GameBrowser from '../GameBrowser';
 import Game from '../Game';
-import Home from '../Home';
 
 class DomWrapper extends React.Component {
 
@@ -21,6 +22,7 @@ class DomWrapper extends React.Component {
         username: null,
       }
     }
+
     this.tryLoginWithCookie();
   }
 
@@ -60,13 +62,19 @@ class DomWrapper extends React.Component {
           <Route exact path={ROUTES.HOME} component={Home} />
           <Route 
             path={ROUTES.GAME_BROWSER} 
-            render={
-              () => (
-                <GameBrowser 
-                  loginState={this.state.loginState}
-                />
-              )
-            }
+            render={() => (
+              <GameBrowser 
+                loginState={this.state.loginState}
+              />
+            )}
+          />
+          <Route
+            path={ROUTES.HOST}
+            render={() => (
+              <Host 
+                loginState={this.state.loginState}
+              />
+            )}
           />
           <Route path={ROUTES.GAME} component={Game} />
         </div>
