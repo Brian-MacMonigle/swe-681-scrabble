@@ -1,17 +1,17 @@
 function create(message) {
 	return {
-		success: message,
-	}
+		success: message
+	};
 }
 
 function createError(message) {
 	return {
-		error: message,
-	}
+		error: message
+	};
 }
 
 function isError(result) {
-	return !!result && !!result.error;
+	return !!result && !!(result.error !== undefined);
 }
 
 function isSuccess(result) {
@@ -19,26 +19,26 @@ function isSuccess(result) {
 }
 
 function getErrorMessage(result) {
-	return result.error;
+	return (result && result.error) || result;
 }
 
 function getSuccessMessage(result) {
-	return result.success;
+	return result && result.success;
 }
 
 function getMessage(result) {
-	if(isError(result)) {
+	if (isError(result)) {
 		return getErrorMessage(result);
 	}
 	return getSuccessMessage(result);
 }
 
-module.exports = { 
-	create, 
-	createError, 
-	isError, 
-	isSuccess, 
-	getErrorMessage, 
-	getSuccessMessage, 
+module.exports = {
+	create,
+	createError,
+	isError,
+	isSuccess,
+	getErrorMessage,
+	getSuccessMessage,
 	getMessage
 };

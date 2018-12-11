@@ -46,11 +46,11 @@ function isSuccess(result) {
 }
 
 function getErrorMessage(result) {
-	return result.error;
+	return result && result.error || result;
 }
 
 function getSuccessMessage(result) {
-	return result.success;
+	return result && result.success;
 }
 
 function getMessage(result) {

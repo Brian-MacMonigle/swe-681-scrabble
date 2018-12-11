@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router';
+import React, { Component } from "react";
+import { Redirect } from "react-router";
 import Styled from "styled-components";
 
-import Result, { postJSONFromServer } from '../FetchWrapper';
+import Result, { postJSONFromServer } from "../FetchWrapper";
 
 const HostTitle = Styled.h1`
 `;
@@ -19,13 +19,11 @@ class LoginPage extends Component {
 	constructor(props) {
 		super(props);
 		const {
-			loginState: {
-				username,
-			}
+			loginState: { username }
 		} = props;
 
-		this.state = { 
-			gameName: `${username}'s game`,
+		this.state = {
+			gameName: `${username}'s game`
 		};
 	}
 
@@ -34,62 +32,43 @@ class LoginPage extends Component {
 	};
 
 	onHost = async () => {
-		const {
-			state: {
-				gameName,
-			} = {},
-		} = this;
+		const { state: { gameName } = {} } = this;
 
-		const res = await postJSONFromServer('/games/new', {
-			gameName,
+		const res = await postJSONFromServer("/games/new", {
+			gameName
 		});
-		console.log('onHost: ', this, '\ngameName: ', gameName, '\nres: ', res);
-		if(Result.isSuccess(res)) {
-			console.log('Success...');
+		console.log("onHost: ", this, "\ngameName: ", gameName, "\nres: ", res);
+		if (Result.isSuccess(res)) {
+			console.log("Success...");
 		}
-	}
+	};
 
 	render() {
 		const {
-			props: {
-				loginState: {
-					username,
-				} = {},
-			} = {},
-			state: {
-				gameName,
-			} = {},
+			props: { loginState: { username } = {} } = {},
+			state: { gameName } = {}
 		} = this;
 
-	if(!username) {
-		return <Redirect to="/" />;
-	}
+		if (!username) {
+			return <Redirect to="/" />;
+		}
 
-	return (
-		<React.Fragment>
-			<HostTitle>
-				{`Host a game as ${username}:`}
-			</HostTitle>
-			<FormInput>
-				<FormText>
-					Game Name:
-				</FormText>
-				<input
-					name="gameName"
-					value={gameName}
-					onChange={this.onType}
-					type="text"
-					placeholder={`${username}'s game`}
-				/>
-			</FormInput>
-			<button
-				onClick={this.onHost}
-			>
-				Host
-			</button>
-		</React.Fragment>
+		return (
+			<React.Fragment>
+				<HostTitle>{`Host a game as ${username}:`}</HostTitle>
+				<FormInput>
+					<FormText>Game Name:</FormText>
+					<input
+						name="gameName"
+						value={gameName}
+						onChange={this.onType}
+						type="text"
+						placeholder={`${username}'s game`}
+					/>
+				</FormInput>
+				<button onClick={this.onHost}>Host</button>
+			</React.Fragment>
 		);
 	}
 }
-export default LoginPage
-
+export default LoginPage;
