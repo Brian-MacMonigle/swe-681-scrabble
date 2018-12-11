@@ -10,7 +10,7 @@ import Table from '../Table';
 const allGameHeaders = [
 	{
 		Header: "Game Name",
-		accessor: 'name',
+		accessor: 'gameName',
 	},
 	{
 		Header: "Host",
@@ -22,7 +22,7 @@ const allGameHeaders = [
 	},
 	{
 		Header: "Join Game",
-		accessor: 'button',
+		accessor: 'join',
 		css: {
 			'text-align': 'center',
 		}
@@ -30,21 +30,10 @@ const allGameHeaders = [
 ]
 
 const userGameHeaders = [
-	{
-		Header: "Game Name",
-		accessor: 'name',
-	},
-	{
-		Header: "Host",
-		accessor: 'host',
-	},
-	{
-		Header: "Players",
-		accessor: (cell) => `${cell.players}/2`,
-	},
+	...allGameHeaders,
 	{
 		Header: "Delete Game",
-		accessor: 'button',
+		accessor: 'delete',
 		css: {
 			'text-align': 'center',
 		}
@@ -59,18 +48,26 @@ class GameBrowser extends React.Component {
 		super(props);
 		this.state = {
 			data: [],
+			userData: [],
 		}
 	}
 
 	parseData = (data, isUser) => {
 		return data && map(data, (game) => ({
 			...game,
-			button: (
-				<button 
-					onClick={() => isUser ? this.onHost() : this.onJoin(game.id)}
-				>
-					{isUser ? 'Delete' : 'Join'}
-				</button>
+			join: (
+					<button
+						onClick={() => this.onJoin(game.id)}
+					>
+						Join
+					</button>
+				),
+			delete: (
+					<button
+						onClick={() => this.onDelete(game.id)}
+					>
+						Delete
+					</button>
 				)
 		})) || [];
 	}
@@ -90,13 +87,38 @@ class GameBrowser extends React.Component {
 		alert(`Clicked join game #${id}`)
 	}
 
-	async componentDidMount() {
-		const res = await getJSONFromServer('/games/all');
-		if(Result.isSuccess(res)) {
-			this.setState({
-				data: this.parseData(Result.getMessage(res)),
-			})
+	onDelete = (id) => {
+		const {
+			props: {
+				loginState: {
+					username,
+				} = {},
+			} = {},
+		} = this;
+		if(!username) {
+			alert('I am sorry, but I can\'t let you do that.');
+			return;
 		}
+		alert(`Clicked delete game #${id}`);
+	}
+
+	componentDidMount() {
+		getJSONFromServer('/games/all')
+			.then(res => {
+				if(Result.isSuccess(res)) {
+					this.setState({
+						data: this.parseData(Result.getMessage(res)),
+					})
+				}
+			});
+		getJSONFromServer('/games/user')
+			.then(res => {
+				if(Result.isSuccess(res)) {
+					this.setState({
+						userData: this.parseData(Result.getMessage(res), true),
+					})
+				}
+			});
 	}
 
 	render() {
@@ -108,6 +130,7 @@ class GameBrowser extends React.Component {
 			} = {},
 			state: {
 				data,
+				userData,
 			},
 		} = this;
 		let userGames = null;
@@ -124,7 +147,7 @@ class GameBrowser extends React.Component {
 					</TitleWrapper>
 					<Table
 						headers={userGameHeaders}
-						data={[]}
+						data={userData}
 					/>
 				</React.Fragment>
 			);

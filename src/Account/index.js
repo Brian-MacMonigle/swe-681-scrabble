@@ -81,13 +81,13 @@ function defaultValidation(username, password) {
 }
 
 // Expects username to be valid and sanitized
-async function getUser(username) {
+async function getUser(username, pathToData = '') {
 	const sanitizedUsername = sanitizeUsername(username);
 	const error = validateInputs({ value: username, func: isValidUsername, key: VALIDATION_KEYS.invalidUsername });
 	if(Result.isError(error)) {
 		return error;
 	}
-	return await Database.read(`user/${username}`);
+	return await Database.read(`user/${username}${pathToData ? `/${pathToData}` : ''}`);
 }
 
 async function doesUserExist(username) {
@@ -168,7 +168,7 @@ async function validateLoginToken(username, token) {
 		return error;
 	}
 
-	// already validated, assume no error from getUser()
+	// validated, assume no error from getUser()
 	const { account: { tokens = []} = {} } = await getUser(username) || {};
 	return !!tokens.find(({t}) => token === t);
 }
@@ -245,28 +245,8 @@ async function login(username, password) {
 	});
 }
 
-function validateDataRequest(username, token) {
-	// Input validation.  validateLoginToken() also validates username.
-	const sanitizedUsername = sanitizeUsername(username);
-	const validToken = validateLoginToken(username, token);
-	// error from func
-	if(Result.isError(validToken)) {
-		return validToken;
-	// token was not valid
-	}
-
-	Log.log('Account', 'validateDataRequest', 'Attempting to log in with token: ', { username, sanitizedUsername, token: !!token });
-	
-	if(!validToken) {
-		Log.log('Account', 'validateDataRequest', 'Login token invalid: ', { username, sanitizedUsername, token: !!token });
-		return createErrorWithKey(VALIDATION_KEYS.invalidToken);
-	}
-
-	return Result.create('Valid username and token');
-}
-
 async function loginWithToken(username, token) {
-	const res = validateDataRequest(username, token);
+	const res = validateLoginToken(username, token);
 	if(Result.isError(res)) {
 		return res;
 	}
@@ -285,7 +265,7 @@ async function loginWithToken(username, token) {
 }
 
 async function getUserData(username, token) {
-	const res = validateDataRequest(username, token);
+	const res = validateLoginToken(username, token);
 	if(Result.isError(res)) {
 		return res;
 	}
@@ -300,7 +280,7 @@ async function getUserData(username, token) {
 }
 
 async function updateUserData(username, token, data) {
-	const res = validateDataRequest(username, token);
+	const res = validateLoginToken(username, token);
 	if(Result.isError(res)) {
 		return res;
 	}
@@ -319,7 +299,8 @@ module.exports = {
 		getUser,
 		getUserData,
 		updateUserData,
+		validateLoginToken,
 	},
-	validateDataRequest,
 	sanitizeUsername,
+	getUser,
 };

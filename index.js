@@ -124,7 +124,6 @@ app.get('/api/games/all', (req, res) => {
 		.then(result => res.send(result));
 });
 
-// TODO: Needs testing!
 app.post('/api/games/new', (req, res) => {
 	const { username, token } = Cookie.getFromReq(req);
 	const { ...gameData } = req.body;
@@ -132,6 +131,13 @@ app.post('/api/games/new', (req, res) => {
 		.catch(error => handleInternalError(error))
 		.then(result => res.send(result));
 });
+
+app.get('/api/games/user', (req, res) => {
+	const { username, token } = Cookie.getFromReq(req);
+	Games.getUserGames(username, token)
+		.catch(error => handleInternalError(error))
+		.then(result => res.send(result));
+})
 
 // API Default
 

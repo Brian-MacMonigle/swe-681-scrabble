@@ -18,10 +18,14 @@ const Header = Styled.th`
 `;
 
 const Row = Styled.tr`
+	:hover {
+		background-color: #CFCFCF;
+	}
 `;
 
 const Cell = Styled.td`
 	border: 1px solid black;
+	padding: 0.5em;
 	${props => props.css}
 `;
 
