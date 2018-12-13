@@ -41,6 +41,7 @@ class DomWrapper extends React.Component {
   };
 
   setLoginState = (username, data) => {
+    console.log("Setting login state: ");
     this.setState({
       loginState: {
         username,

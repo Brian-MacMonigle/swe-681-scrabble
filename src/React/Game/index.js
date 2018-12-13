@@ -38,7 +38,7 @@ class GameWrapper extends React.Component {
 			props: { loginState } = {}
 		} = this;
 		if (error) {
-			return <p>error</p>;
+			return <p>{error}</p>;
 		}
 		return <Board loginState={loginState} gameData={gameData} />;
 	}

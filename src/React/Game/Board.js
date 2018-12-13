@@ -1,28 +1,45 @@
 import React from "react";
 import Styled from "styled-components";
+import uuid from "uuid/v4";
+
+const DEFAULT_TILE_COLOR = "Cornsilk";
 
 const Title = Styled.h1`
 	text-align: center;
 `;
 
-const SmallTitle = Styled.h2``;
+const SmallTitle = Styled.h2`
+	text-align: center;
+`;
 
 const PlayerTiles = Styled.div`
 	display: flex;
+	justify-content: center;
 `;
 
-const Table = Styled.table``;
+const Table = Styled.table`
+	margin: auto;
+`;
 
 const TBody = Styled.tbody``;
 
 const TR = Styled.tr``;
 
 const Cell = Styled.td`
-	background: ${props => props.color || "Cornsilk"};
+	background: ${props => props.color || DEFAULT_TILE_COLOR};
 	border: 1px solid #555;
-	width: 50px;
-	height: 50px;
-	lineHeight: 50px;
+	width: 40px;
+	height: 40px;
+	lineHeight: 40px;
+	text-align: center;
+`;
+
+const PlayerTile = Styled.div`
+	background: ${DEFAULT_TILE_COLOR};
+	border: 1px solid #555;
+	width: 40px;
+	height: 40px;
+	lineHeight: 40px;
 	text-align: center;
 `;
 
@@ -46,7 +63,11 @@ class ScrabbleBoard extends React.Component {
 	renderCell = tile => {
 		const { letter = " " } = tile;
 
-		return <Cell color={getColor(tile)}>{letter}</Cell>;
+		return (
+			<Cell key={uuid()} color={getColor(tile)}>
+				{letter}
+			</Cell>
+		);
 	};
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -56,7 +77,7 @@ class ScrabbleBoard extends React.Component {
 	render() {
 		const {
 			props: {
-				logginState: { username } = {},
+				loginState: { username } = {},
 				gameData,
 				gameData: {
 					gameName = "",
@@ -65,8 +86,8 @@ class ScrabbleBoard extends React.Component {
 			} = {}
 		} = this;
 
-		const thisPlayer = players.find(({ name }) => name === username);
-
+		const thisPlayer = players.find(({ name }) => name === username) || {};
+		const { name: playerName = "", tiles: playerTiles = [] } = thisPlayer;
 		console.log(
 			"ScrabbleBoard: ",
 			"\nrender: ",
@@ -82,7 +103,11 @@ class ScrabbleBoard extends React.Component {
 			"\nusername: ",
 			username,
 			"\nthisPlayer: ",
-			thisPlayer
+			thisPlayer,
+			"\nplayerName: ",
+			playerName,
+			"\nplayerTiles: ",
+			playerTiles
 		);
 
 		if (!thisPlayer) {
@@ -104,14 +129,18 @@ class ScrabbleBoard extends React.Component {
 				<Table>
 					<TBody>
 						{tiles.map(row => (
-							<TR>
+							<TR key={uuid()}>
 								{(row || []).map(tile => this.renderCell(tile))}
 							</TR>
 						))}
 					</TBody>
 				</Table>
 				<SmallTitle>Your Tiles:</SmallTitle>
-				<PlayerTiles>{thisPlayer}</PlayerTiles>
+				<PlayerTiles>
+					{playerTiles.map(tile => (
+						<PlayerTile key={uuid()}>{tile.letter}</PlayerTile>
+					))}
+				</PlayerTiles>
 			</React.Fragment>
 		);
 	}
