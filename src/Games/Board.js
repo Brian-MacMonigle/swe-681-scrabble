@@ -390,7 +390,9 @@ function newBoard(players = []) {
 				row0
 			],
 			players: [],
-			playerTiles: getNewPlayerTiles()
+			playerTiles: getNewPlayerTiles(),
+			turnIndex: 0,
+			turnCount: 0
 		})
 	);
 	if (players.length > 0) {
@@ -441,6 +443,7 @@ function isValidTile(tile) {
 	);
 }
 
+// TODO: Actually validate it
 function isValidBoard(board) {
 	return Result.create("NEED TO UPDATE THIS FUNCTION!!!");
 }
