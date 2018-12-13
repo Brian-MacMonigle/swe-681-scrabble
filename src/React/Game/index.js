@@ -1,15 +1,26 @@
-import React from 'react';
+import React from "react";
 
-class Game extends React.Component {
+import queryToPropsHOC from "../queryToPropsHOC";
+import { postJSONFromServer } from "../FetchWrapper";
 
+// import Board from "./Board";
+
+class GameWrapper extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.updateBoard();
+	}
+
+	updateBoard = async () => {
+		const { props: { id } = {} } = this;
+		const res = await postJSONFromServer("/games/board", { id });
+		console.log("Board: ", res);
+	};
 
 	render() {
-		return (
-			<div>
-				I am the game board
-			</div>
-		);
+		return <p>I am the Game Wrapper</p>;
 	}
 }
 
-export default Game;
+export default queryToPropsHOC(GameWrapper);

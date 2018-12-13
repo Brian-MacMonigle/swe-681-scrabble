@@ -6,7 +6,7 @@ const Result = require("./src/APICallResult");
 const Cookie = require("./src/Cookie");
 const Account = require("./src/Account").validated;
 const Games = require("./src/Games").validated;
-const Board = require("./src/Board");
+const GameBrowser = require("./src/GameBrowser").validated;
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -116,14 +116,10 @@ app.post("/api/account/data", (req, res) => {
 		.then(result => res.send(result));
 });
 
-// Games
-
-app.get("/api/board/new", (req, res) => {
-	res.json(Board.newBoard());
-});
+// GameBrowser
 
 app.get("/api/games/all", (req, res) => {
-	Games.getAll()
+	GameBrowser.getAll()
 		.catch(error => handleInternalError(error))
 		.then(result => res.send(result));
 });
@@ -131,7 +127,7 @@ app.get("/api/games/all", (req, res) => {
 app.post("/api/games/new", (req, res) => {
 	const { username, token } = Cookie.getFromReq(req);
 	const { ...gameData } = req.body;
-	Games.newGame(username, token, gameData)
+	GameBrowser.newGame(username, token, gameData)
 		.catch(error => handleInternalError(error))
 		.then(result => res.send(result));
 });
@@ -139,34 +135,50 @@ app.post("/api/games/new", (req, res) => {
 app.post("/api/games/join", (req, res) => {
 	const { username, token } = Cookie.getFromReq(req);
 	const { id } = req.body;
-	Games.joinGame(username, token, id)
+	GameBrowser.joinGame(username, token, id)
 		.catch(error => handleInternalError(error))
 		.then(result => res.send(result));
 });
 
+// Depreciated
 // Remove user from game they joined.  Can not delete non-owned games
-app.post("/api/games/quit", (req, res) => {
-	const { username, token } = Cookie.getFromReq(req);
-	const { id } = req.body;
-	Games.quitGame(username, token, id)
-		.catch(error => handleInternalError(error))
-		.then(result => res.send(result));
-});
+// app.post("/api/games/quit", (req, res) => {
+// 	const { username, token } = Cookie.getFromReq(req);
+// 	const { id } = req.body;
+// 	GameBrowser.quitGame(username, token, id)
+// 		.catch(error => handleInternalError(error))
+// 		.then(result => res.send(result));
+// });
 
 // Remove game from database
 app.post("/api/games/delete", (req, res) => {
 	const { username, token } = Cookie.getFromReq(req);
 	const { id } = req.body;
-	Games.deleteGame(username, token, id)
+	GameBrowser.deleteGame(username, token, id)
 		.catch(error => handleInternalError(error))
 		.then(result => res.send(result));
 });
 
 app.get("/api/games/user", (req, res) => {
 	const { username, token } = Cookie.getFromReq(req);
-	Games.getUserGames(username, token)
+	GameBrowser.getUserGames(username, token)
 		.catch(error => handleInternalError(error))
 		.then(result => res.send(result));
+});
+
+// Games
+
+app.post("/api/games/board", (req, res) => {
+	const { username, token } = Cookie.getFromReq(req);
+	const { id } = req.body;
+	console.log("req.body: ", req.body);
+	GameBrowser.getGameWithToken(username, token, id)
+		.catch(error => handleInternalError(error))
+		.then(result => res.send(result));
+});
+
+app.post("/api/games/move", (req, res) => {
+	res.send(Result.createError("Not implemented yet."));
 });
 
 // API Default

@@ -10,7 +10,7 @@ export function getJSONFromServer(path) {
 
 	const options = {
 		headers: {
-			"Content-Type": "application/json; charset=utf-8",
+			"Content-Type": "application/json; charset=utf-8"
 		}
 	};
 
@@ -25,12 +25,12 @@ export function postJSONFromServer(path, data) {
 	}
 
 	const options = {
-		method: 'POST',
+		method: "POST",
 		headers: {
-			'Content-Type': 'application/json',
+			"Content-Type": "application/json"
 		},
-		body: JSON.stringify(data),
-	}
+		body: JSON.stringify(data)
+	};
 
 	return fetch(getUrl(path), options)
 		.then(res => res.json())
@@ -46,7 +46,7 @@ function isSuccess(result) {
 }
 
 function getErrorMessage(result) {
-	return result && result.error || result;
+	return (result && result.error) || result;
 }
 
 function getSuccessMessage(result) {
@@ -54,16 +54,16 @@ function getSuccessMessage(result) {
 }
 
 function getMessage(result) {
-	if(isError(result)) {
+	if (isError(result)) {
 		return getErrorMessage(result);
 	}
 	return getSuccessMessage(result);
 }
 
-export default { 
-	isError, 
-	isSuccess, 
-	getErrorMessage, 
-	getSuccessMessage, 
-	getMessage 
-}
+export default {
+	isError,
+	isSuccess,
+	getErrorMessage,
+	getSuccessMessage,
+	getMessage
+};

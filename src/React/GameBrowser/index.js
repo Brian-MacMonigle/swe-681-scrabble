@@ -18,7 +18,8 @@ const allGameHeaders = [
 	},
 	{
 		Header: "Players",
-		accessor: cell => `${(cell.players && cell.players.length) || -1}/2`
+		accessor: cell =>
+			`${(cell.board.players && cell.board.players.length) || -1}/2`
 	},
 	{
 		Header: "Join Game",
@@ -91,10 +92,7 @@ class GameBrowser extends React.Component {
 				map(data, game => ({
 					...game,
 					join: (
-						<button
-							onClick={() => this.onJoin(game.id)}
-							disabled={game.host === username}
-						>
+						<button onClick={() => this.onJoin(game.id)}>
 							Join
 						</button>
 					),
@@ -117,9 +115,13 @@ class GameBrowser extends React.Component {
 
 	onJoin = async id => {
 		const {
-			props: { loginState: { username } = {} } = {},
+			props: { loginState: { username } = {}, history } = {},
 			state: { data, userData }
 		} = this;
+
+		if (!id) {
+			console.error("onJoin called and id was null or undefined");
+		}
 
 		if (!username) {
 			alert("Please Log In or Sign Up before joining a game.");
@@ -129,24 +131,25 @@ class GameBrowser extends React.Component {
 		const game =
 			userData.find(d => d.id === id) || data.find(d => d.id === id);
 		if (!game) {
-			console.error("Could not find game to delete.");
+			console.error("Could not find game with to join.");
 			return;
 		}
 
-		let res;
-		// can't join own game
-		if (game.host === username) {
-			alert("You can not join your own game.");
-			return;
-		} else {
-			// quit from game
-			res = await postJSONFromServer("/games/join", { id });
+		// Request to join game via database
+		if (game.host !== username) {
+			const res = await postJSONFromServer("/games/join", { id });
+			if (Result.isError(res)) {
+				console.error(
+					"Failed to join game: ",
+					"\nError: ",
+					Result.getMessage(res)
+				);
+			}
 		}
-		if (Result.isSuccess(res)) {
-			console.log("onJoin: ", "\nres: ", Result.getMessage(res));
-			this.reloadData();
-		} else {
-			console.log("onJoin: ", "\nerror res: ", Result.getMessage(res));
+
+		// Go to game page
+		if (history && id) {
+			history.push(`/game/?id=${id}`);
 		}
 	};
 

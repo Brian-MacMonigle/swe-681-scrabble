@@ -46,17 +46,26 @@ function sanitizeUsername(username = "") {
 	return username.replace(/[.]/g, ",");
 }
 
-function isValidUsername(username = "") {
+function isValidUsername(username) {
+	if (typeof username !== "string") {
+		return false;
+	}
 	return !!username.match(/^[A-Za-z0-9,@]{3,256}$/g);
 }
 
-function isValidPassword(password = "") {
+function isValidPassword(password) {
+	if (typeof password !== "string") {
+		return false;
+	}
 	return !!password.match(
 		/^[A-Za-z0-9 !"#$%&'()*+,\-.\/:;<=>?@[\]^_`{|}~]{3,256}$/g
 	);
 }
 
-function isValidToken(token = "") {
+function isValidToken(token) {
+	if (typeof token !== "string") {
+		return false;
+	}
 	return !!token.match(/^[a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}$/g);
 }
 

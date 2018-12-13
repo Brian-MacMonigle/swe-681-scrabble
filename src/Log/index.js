@@ -1,8 +1,11 @@
-const Database = require('../Database');
+const _ = require("lodash");
+const uuid = require("uuid/v4");
+
+const Database = require("../Database");
 
 function padZeros(toPad = "", pad = 0) {
 	const res = `${toPad}`;
-	return res.padStart(pad, '0');
+	return res.padStart(pad, "0");
 }
 
 function log(...data) {
@@ -16,15 +19,39 @@ function log(...data) {
 	const seconds = padZeros(date.getSeconds(), 2);
 	const miliseconds = padZeros(date.getMilliseconds(), 3);
 
-	const path = `log/${year}-${month}-${day}-${hours}-${minutes}-${seconds}-${miliseconds}`;
-	const dataRes = { ...data };
+	const path = `log/${year}-${month}-${day}-${hours}-${minutes}-${seconds}-${miliseconds}/${uuid()}`;
 
-	console.log(path, '\n', dataRes, '\n');
+	// parse data
+	const sanitizedArray = data.reduce((acc, arg) => {
+		if (typeof arg !== "object") {
+			return acc.concat(arg);
+		}
+		// ensure no 'undefined' in json
+		const sanitizedJSON = _.reduce(
+			arg,
+			(jsonAcc, value, key) => {
+				if (typeof value === "function") {
+					return jsonAcc;
+				}
+				return {
+					...jsonAcc,
+					[key]:
+						value === undefined || value === null ? "null" : value
+				};
+			},
+			{}
+		);
+		return acc.concat(sanitizedJSON);
+	}, []);
+
+	const dataRes = { ...sanitizedArray };
+
+	console.log(path, "\n", dataRes, "\n");
 	Database.write(path, dataRes);
 }
 
 function DELETE_ALL_LOGS() {
-	Database.write('log', null);
+	Database.write("log", null);
 }
 
 module.exports = { log };
