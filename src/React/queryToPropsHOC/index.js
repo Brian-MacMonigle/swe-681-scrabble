@@ -24,7 +24,7 @@ function queryToPropsHOC(Component) {
 		render() {
 			return (
 				<React.Fragment>
-					<Component {...this.parseQuery()} />
+					<Component {...this.props} {...this.parseQuery()} />
 				</React.Fragment>
 			);
 		}

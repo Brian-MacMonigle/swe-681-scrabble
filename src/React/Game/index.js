@@ -1,13 +1,19 @@
 import React from "react";
 
+import Result from "../FetchWrapper";
 import queryToPropsHOC from "../queryToPropsHOC";
 import { postJSONFromServer } from "../FetchWrapper";
 
-// import Board from "./Board";
+import Board from "./Board";
 
 class GameWrapper extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			gameData: null,
+			error: "The board hasn't loaded yet"
+		};
 
 		this.updateBoard();
 	}
@@ -15,11 +21,26 @@ class GameWrapper extends React.Component {
 	updateBoard = async () => {
 		const { props: { id } = {} } = this;
 		const res = await postJSONFromServer("/games/board", { id });
-		console.log("Board: ", res);
+		if (Result.isError(res)) {
+			this.setState({
+				error: Result.getMessage(res)
+			});
+		}
+		this.setState({
+			gameData: Result.getMessage(res),
+			error: null
+		});
 	};
 
 	render() {
-		return <p>I am the Game Wrapper</p>;
+		const {
+			state: { gameData, error } = {},
+			props: { loginState } = {}
+		} = this;
+		if (error) {
+			return <p>error</p>;
+		}
+		return <Board loginState={loginState} gameData={gameData} />;
 	}
 }
 
