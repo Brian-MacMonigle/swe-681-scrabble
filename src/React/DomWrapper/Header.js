@@ -1,16 +1,16 @@
-import React from 'react';
-import Styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from "react";
+import Styled from "styled-components";
+import { Link } from "react-router-dom";
 
-import * as ROUTES from '../Constants/Routes';
-import Login from './Login';
+import * as ROUTES from "../Constants/Routes";
+import Login from "./Login";
 
 const HeaderWrapper = Styled.div`
     display: flex;
     justify-content: space-between;
 `;
 
-const Header = (props) => (
+const Header = props => (
     <HeaderWrapper>
         <ul>
             <li>
@@ -21,9 +21,6 @@ const Header = (props) => (
             </li>
             <li>
                 <Link to={ROUTES.GAME_BROWSER}>Game Browser</Link>
-            </li>
-            <li>
-                <Link to={ROUTES.GAME}>Game</Link>
             </li>
         </ul>
         <Login {...props} />

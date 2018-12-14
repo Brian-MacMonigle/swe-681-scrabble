@@ -43,7 +43,7 @@ function createErrorWithKey(key) {
 }
 
 function sanitizeUsername(username = "") {
-	return username.replace(/[.]/g, ",");
+	return username.replace(/[.]/g, ",").toLowerCase();
 }
 
 function isValidUsername(username) {
@@ -217,7 +217,7 @@ async function validateLoginToken(username, token) {
 		}
 	);
 	if (Result.isError(error)) {
-		return error;
+		return Result.createError("Unable to log in with cookie.");
 	}
 
 	Log.log("Account", "validateLoginToken", "Attempting to validate with: ", {

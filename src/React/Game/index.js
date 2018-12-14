@@ -1,4 +1,5 @@
 import React from "react";
+import Styled from "styled-components";
 
 import Result from "../FetchWrapper";
 import queryToPropsHOC from "../queryToPropsHOC";
@@ -6,7 +7,12 @@ import { postJSONFromServer } from "../FetchWrapper";
 
 import Board from "./Board";
 
-class GameWrapper extends React.Component {
+const Error = Styled.div`
+	color: red;
+	text-align: center;
+`;
+
+class GameFetcher extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -25,23 +31,39 @@ class GameWrapper extends React.Component {
 			this.setState({
 				error: Result.getMessage(res)
 			});
+		} else {
+			this.setState({
+				gameData: Result.getMessage(res),
+				error: null
+			});
 		}
-		this.setState({
-			gameData: Result.getMessage(res),
-			error: null
-		});
 	};
+
+	componentDidUpdate(prevProps) {
+		const { props: { loginState: { username } = {} } = {} } = this;
+		const { loginState: { username: prevUsername } = {} } = prevProps;
+		if (username !== prevUsername) {
+			this.updateBoard();
+		}
+	}
 
 	render() {
 		const {
 			state: { gameData, error } = {},
-			props: { loginState } = {}
+			props: { loginState, id } = {}
 		} = this;
 		if (error) {
-			return <p>{error}</p>;
+			return <Error>{error}</Error>;
 		}
-		return <Board loginState={loginState} gameData={gameData} />;
+		return (
+			<Board
+				loginState={loginState}
+				gameData={gameData}
+				id={id}
+				refetch={this.updateBoard}
+			/>
+		);
 	}
 }
 
-export default queryToPropsHOC(GameWrapper);
+export default queryToPropsHOC(GameFetcher);

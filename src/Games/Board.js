@@ -1,12 +1,17 @@
 const Random = require("random-js");
 const random = new Random(Random.engines.browserCrypto);
+const _ = require("lodash");
 
 const Result = require("../APICallResult");
+
+const { validWord } = require("./AllWords");
+
+const DEFAULT_NUMBER_OF_PLAYER_TILES = 7;
 
 const tile = {
 	letterPoints: 1,
 	wordPoints: 1,
-	letter: " ",
+	letter: "",
 	startTile: false,
 	playerTile: null
 };
@@ -33,7 +38,8 @@ const tripleWordTile = {
 
 const startTile = {
 	...tile,
-	startTile: true
+	startTile: true,
+	wordPoints: 2
 };
 
 const tileTypes = [
@@ -391,7 +397,6 @@ function newBoard(players = []) {
 			],
 			players: [],
 			playerTiles: getNewPlayerTiles(),
-			turnIndex: 0,
 			turnCount: 0
 		})
 	);
@@ -402,19 +407,21 @@ function newBoard(players = []) {
 }
 
 function cloneBoard(board) {
-	return JSON.parse(JSON.stringify(board));
+	return JSON.parse(JSON.stringify(board || {}));
 }
 
 function addPlayersToBoard(board = {}, users = []) {
 	const { players: oldPlayers, playerTiles } = cloneBoard(board);
 	const players = oldPlayers;
-	const tiles = [0, 0, 0, 0, 0, 0, 0].map(() =>
-		getRandomPlayerTile(playerTiles)
-	);
 	users.forEach(player => {
 		players.push({
 			name: player,
-			tiles
+			// DEFAULT_NUMBER_OF_PLAYER_TILES
+			tiles: [0, 0, 0, 0, 0, 0, 0].map(() => ({
+				...getRandomPlayerTile(playerTiles),
+				player
+			})),
+			points: 0
 		});
 	});
 
@@ -445,11 +452,189 @@ function isValidTile(tile) {
 
 // TODO: Actually validate it
 function isValidBoard(board) {
+	// check players
+	const { players } = board;
+	if (!players || !Array.isArray(players)) {
+		return Result.createError("Board requires players to be an array.");
+		// ensure no duplicates
+	} else if (
+		players.length !== [...new Set(players.map(({ name }) => name))].length
+	) {
+		return Result.createError(
+			"Board requires the players contain no duplicate names"
+		);
+	}
+
 	return Result.create("NEED TO UPDATE THIS FUNCTION!!!");
 }
 
 function getPlayers(board) {
 	return board.players.map(({ name }) => name);
+}
+
+function isValidMove({
+	board = {},
+	player = "",
+	word = "",
+	row = -1,
+	column = -1,
+	right = false,
+	down = false
+}) {
+	const boardRes = isValidBoard(board);
+	if (Result.isError(boardRes)) {
+		return boardRes;
+	}
+	const newBoardRes = move({
+		board: cloneBoard(board),
+		player,
+		word,
+		row,
+		column,
+		right,
+		down
+	});
+	if (Result.isError(newBoardRes)) {
+		return newBoardRes;
+	}
+	return Result.create("Valid move.");
+}
+
+function move({
+	board = {},
+	player = "",
+	word = "",
+	row = -1,
+	column = -1,
+	right = false,
+	down = false
+}) {
+	const { tiles = [], players = [], turnCount = 0, playerTiles } = board;
+
+	const turnPlayer = players[turnCount % players.length] || {};
+	const {
+		name: turnPlayerName = "",
+		tiles: turnPlayerTiles = []
+	} = turnPlayer;
+	if (
+		!turnPlayerName ||
+		!player ||
+		turnPlayerName.toLowerCase() !== player.toLowerCase()
+	) {
+		return Result.createError(
+			`It is not ${player}'s turn. It is ${turnPlayerName}'s turn.`
+		);
+	}
+
+	// ensure valid word
+	if (!validWord(word)) {
+		return Result.createError("Word provided is not in the dictionary.");
+	}
+
+	// ensure word can fit
+	// +1 because length + location = tile after insert
+	if (right) {
+		if (word.length + column > 15) {
+			return Result.createError("Word can not fit here.");
+		}
+	} else if (down) {
+		if (word.length + row > 15) {
+			return Result.createError("Word can not fit here.");
+		}
+	} else {
+		return Result.createError("Must choose Right OR Down.");
+	}
+
+	const tilesUsed = [];
+	// ensure word can be made from player tiles
+	const canMakeWord =
+		word.length > 0 &&
+		_.reduce(
+			word,
+			(acc, letter) => {
+				if (!acc) {
+					return false;
+				}
+				const findIndex = turnPlayerTiles.findIndex(
+					({ letter: l }) => l.toUpperCase() === letter.toUpperCase()
+				);
+				if (findIndex < 0) {
+					return false;
+				}
+				const tile = turnPlayerTiles.splice(findIndex, 1)[0];
+				if (!tile) {
+					return false;
+				}
+				tilesUsed.push(tile);
+				return acc;
+			},
+			true
+		);
+	if (!canMakeWord) {
+		return Result.createError(`Can not make '${word}' with current tiles.`);
+	}
+
+	// we calculate points during insertion
+	let points = 0;
+	let wordMultipler = 1;
+
+	// attempt add word to board
+	if (right) {
+		for (let i = column; i < word.length + column; i++) {
+			if (tiles[row][i].letter !== "") {
+				return Result.createError("Can not replace tiles.");
+			}
+			const tileUsed = tilesUsed[i - column];
+			const { letter, points: tilePoints } = tileUsed;
+			const { letterPoints, wordPoints } = tiles[row][i];
+			tiles[row][i].letter = letter;
+			tiles[row][i].playerTile = tileUsed;
+
+			points += tilePoints * letterPoints;
+			wordMultipler *= wordPoints;
+		}
+	} else {
+		for (let i = row; i < word.length + row; i++) {
+			if (tiles[i][column].letter !== "") {
+				return Result.createError("Can not replace tiles.");
+			}
+			const tileUsed = tilesUsed[i - row];
+			const { letter, points: tilePoints } = tileUsed;
+			const { letterPoints, wordPoints } = tiles[i][column];
+			tiles[i][column].letter = letter;
+			tiles[i][column].playerTile = tileUsed;
+
+			points += tilePoints * letterPoints;
+			wordMultipler *= wordPoints;
+		}
+	} // we already validated right XOR down
+	points *= wordMultipler;
+
+	// now update player points.
+	const playerStruct = players.find(
+		({ name }) => name.toLowerCase() === player.toLowerCase()
+	);
+	if (!playerStruct) {
+		Result.createError("Could not find player to update points.");
+	}
+	playerStruct.points = (playerStruct.points || 0) + points;
+
+	// now add new tiles to playerStruct
+	while (playerStruct.tiles.length < 7) {
+		playerStruct.tiles.push(getRandomPlayerTile(playerTiles));
+	}
+
+	const newBoard = {
+		...board,
+		turnCount: ++board.turnCount
+	};
+
+	const newBoardRes = isValidBoard(newBoard);
+	if (Result.isError(newBoardRes)) {
+		return newBoardRes;
+	}
+
+	return Result.create(newBoard);
 }
 
 module.exports = {
@@ -458,5 +643,7 @@ module.exports = {
 	isValidBoard,
 	cloneBoard,
 	addPlayersToBoard,
-	getPlayers
+	getPlayers,
+	isValidMove,
+	move
 };

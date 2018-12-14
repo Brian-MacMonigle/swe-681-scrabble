@@ -16,7 +16,12 @@ export function getJSONFromServer(path) {
 
 	return fetch(getUrl(path), options)
 		.then(res => res.json())
-		.catch(error => ({ error }));
+		.catch(
+			error =>
+				console.error("error: ", error) || {
+					error: "Unable to connect to Server."
+				}
+		);
 }
 
 export function postJSONFromServer(path, data) {
@@ -34,7 +39,12 @@ export function postJSONFromServer(path, data) {
 
 	return fetch(getUrl(path), options)
 		.then(res => res.json())
-		.catch(error => ({ error }));
+		.catch(
+			error =>
+				console.error("error: ", error) || {
+					error: "Unable to connect to Server."
+				}
+		);
 }
 
 function isError(result) {

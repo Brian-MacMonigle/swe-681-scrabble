@@ -33,7 +33,7 @@ const allGameHeaders = [
 const userGameHeaders = [
 	...allGameHeaders,
 	{
-		Header: "Quit or Delete Game",
+		Header: "Delete Game",
 		accessor: "delete",
 		css: {
 			"text-align": "center"
@@ -97,8 +97,11 @@ class GameBrowser extends React.Component {
 						</button>
 					),
 					delete: (
-						<button onClick={() => this.onDeleteOrQuit(game.id)}>
-							{game.host === username ? "Delete" : "Quit"}
+						<button
+							disabled={game.host !== username}
+							onClick={() => this.onDelete(game.id)}
+						>
+							Delete
 						</button>
 					)
 				}))) ||
@@ -121,6 +124,7 @@ class GameBrowser extends React.Component {
 
 		if (!id) {
 			console.error("onJoin called and id was null or undefined");
+			return;
 		}
 
 		if (!username) {
@@ -128,22 +132,25 @@ class GameBrowser extends React.Component {
 			return;
 		}
 
-		const game =
-			userData.find(d => d.id === id) || data.find(d => d.id === id);
-		if (!game) {
-			console.error("Could not find game with to join.");
-			return;
-		}
+		let game = userData.find(d => d.id === id);
 
-		// Request to join game via database
-		if (game.host !== username) {
-			const res = await postJSONFromServer("/games/join", { id });
-			if (Result.isError(res)) {
-				console.error(
-					"Failed to join game: ",
-					"\nError: ",
-					Result.getMessage(res)
-				);
+		if (!game) {
+			game = data.find(d => d.id === id);
+			if (!game) {
+				console.error("Could not find game clicked...");
+				return;
+			}
+
+			// Request to join game via database
+			if (game.host !== username) {
+				const res = await postJSONFromServer("/games/join", { id });
+				if (Result.isError(res)) {
+					console.error(
+						"Failed to join game: ",
+						"\nError: ",
+						Result.getMessage(res)
+					);
+				}
 			}
 		}
 
@@ -153,7 +160,7 @@ class GameBrowser extends React.Component {
 		}
 	};
 
-	onDeleteOrQuit = async id => {
+	onDelete = async id => {
 		const {
 			props: { loginState: { username } = {} } = {},
 			state: { userData } = {}
@@ -174,9 +181,6 @@ class GameBrowser extends React.Component {
 		// delete own game
 		if (game.host === username) {
 			res = await postJSONFromServer("/games/delete", { id });
-		} else {
-			// quit from game
-			res = await postJSONFromServer("/games/quit", { id });
 		}
 		if (Result.isSuccess(res)) {
 			console.log("onDeleteOrQuit: ", "\nres: ", Result.getMessage(res));

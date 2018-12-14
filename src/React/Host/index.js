@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router";
+import { Redirect, withRouter } from "react-router";
 import Styled from "styled-components";
 
 import Result, { postJSONFromServer } from "../FetchWrapper";
@@ -15,7 +15,7 @@ const FormText = Styled.span`
 	padding: 0.25em;
 `;
 
-class LoginPage extends Component {
+class HostPage extends Component {
 	constructor(props) {
 		super(props);
 		const {
@@ -32,14 +32,15 @@ class LoginPage extends Component {
 	};
 
 	onHost = async () => {
-		const { state: { gameName } = {} } = this;
+		const { state: { gameName } = {}, props: { history } = {} } = this;
 
 		const res = await postJSONFromServer("/games/new", {
 			gameName
 		});
 		console.log("onHost: ", this, "\ngameName: ", gameName, "\nres: ", res);
 		if (Result.isSuccess(res)) {
-			console.log("Success...");
+			const { id } = Result.getMessage(res);
+			history.push(`/game/?id=${id}`);
 		}
 	};
 
@@ -71,4 +72,4 @@ class LoginPage extends Component {
 		);
 	}
 }
-export default LoginPage;
+export default withRouter(HostPage);
