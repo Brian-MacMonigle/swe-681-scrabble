@@ -16,7 +16,8 @@ function createInRes(res, username, token) {
 		},
 		{
 			maxAge: DEFAULT_MAX_AGE,
-			httpOnly: true
+			httpOnly: true,
+			secure: true
 		}
 	];
 	res.cookie(...cookie);
