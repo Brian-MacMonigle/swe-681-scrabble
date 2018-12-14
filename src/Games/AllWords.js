@@ -1,5 +1,6 @@
 // Credit: https://boardgames.stackexchange.com/questions/38366/latest-collins-scrabble-words-list-in-text-file
 // https://drive.google.com/file/d/0B9-WNydZzCHrdDVEc09CamJOZHc/view
+// This is the offical Collins 2015 Srabble word list
 
 const words = [
 	"AA",
@@ -77131,7 +77132,6 @@ function validWord(word) {
 	if (typeof word !== "string") {
 		return false;
 	}
-	console.log("words: ", words, "\nword: ", word);
 	return words.includes(word.toUpperCase());
 }
 

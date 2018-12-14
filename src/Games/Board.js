@@ -330,6 +330,8 @@ const ZPlayerTile = {
 	points: 10
 };
 
+const ALL_PLAYER_TILES_COUNT = 100;
+
 const allPlayerTiles = [
 	...Array(12).fill(EPlayerTile),
 	...Array(9).fill(APlayerTile),
@@ -371,8 +373,11 @@ function getNewPlayerTiles() {
 
 // Modifies allPlayerTiles
 function getRandomPlayerTile(allPlayerTiles) {
+	if (allPlayerTiles.length === 0) {
+		return Result.createError("Empty Bag of tiles.");
+	}
 	const tileIndex = random.integer(0, allPlayerTiles.length);
-	return allPlayerTiles.splice(tileIndex, 1)[0];
+	return Result.create(allPlayerTiles.splice(tileIndex, 1)[0]);
 }
 
 function newBoard(players = []) {
@@ -418,7 +423,8 @@ function addPlayersToBoard(board = {}, users = []) {
 			name: player,
 			// DEFAULT_NUMBER_OF_PLAYER_TILES
 			tiles: [0, 0, 0, 0, 0, 0, 0].map(() => ({
-				...getRandomPlayerTile(playerTiles),
+				// this should always pass because of our limited player size
+				...Result.getMessage(getRandomPlayerTile(playerTiles)),
 				player
 			})),
 			points: 0
@@ -450,10 +456,211 @@ function isValidTile(tile) {
 	);
 }
 
+function getAllBoardWords({ tiles }) {
+	// we use recurision in a tree type higherarchy.
+
+	const horizontalWords = tiles.reduce((acc, row, j) => {
+		let curWord = [];
+		const res = row.reduce((a, tile, i) => {
+			const { letter } = tile;
+			if (letter === "") {
+				if (curWord.length > 0) {
+					a.push(curWord);
+				}
+				curWord = [];
+			} else {
+				curWord.push({ ...tile, i, j });
+			}
+			return a;
+		}, []);
+		return acc.concat(res);
+	}, []);
+
+	const curWords = [
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[],
+		[]
+	];
+	const verticalWords = tiles.reduce((acc, row, j) => {
+		const res = row.reduce((a, tile, i) => {
+			const { letter } = tile;
+			if (letter === "") {
+				if (curWords[i].length > 0) {
+					a.push(curWords[i]);
+				}
+				curWords[i] = [];
+			} else {
+				curWords[i].push({ ...tile, i, j });
+			}
+			return a;
+		}, []);
+		return acc.concat(res);
+	}, []);
+
+	// word lists contain single letter words that are actually part of another word.
+	const sanitizedHorizontalWords = horizontalWords.reduce((acc, word) => {
+		const text = word.map(({ letter }) => letter).join("");
+
+		// if the word is a single tile, and not a valid word
+		// and not in the other list, then this is a corrupted board.
+		if (!validWord(text)) {
+			if (
+				!text.length === 1 ||
+				!verticalWords.find(
+					({ i, j }) => word[0].i === i && word[0].j === j
+				)
+			) {
+				Result.createError(`invalid word at ${tile.i}, ${tile.j}`);
+			}
+		} else {
+			acc.push(word);
+		}
+		return acc;
+	}, []);
+
+	const sanitizedVerticalWords = verticalWords.reduce((acc, word) => {
+		const text = word.map(({ letter }) => letter).join("");
+
+		// if the word is a single tile, and not a valid word
+		// and not in the other list, then this is a corrupted board.
+		if (!validWord(text)) {
+			if (
+				!text.length === 1 ||
+				!horizontalWords.find(
+					({ i, j }) => word[0].i === i && word[0].j === j
+				)
+			) {
+				Result.createError(`invalid word at ${tile.i}, ${tile.j}`);
+			}
+		} else {
+			acc.push(word);
+		}
+		return acc;
+	}, []);
+
+	return Result.create(
+		sanitizedHorizontalWords.concat(sanitizedVerticalWords)
+	);
+}
+
+// returns { [player]: { name: player, points: # } };
+function getPointsFromWords(words) {
+	return words.reduce((acc, word) => {
+		const wordScore = word.reduce((a, tile) => {
+			const player = tile.playerTile.player;
+			if (!a[player]) {
+				a = {
+					...a,
+					[player]: {
+						points: 0,
+						multiplier: 1
+					}
+				};
+			}
+			a[player].points += tile.playerTile.points * tile.letterPoints;
+			a[player].multiplier *= tile.wordPoints;
+			return a;
+		}, {});
+		return (playerScores = _.reduce(
+			wordScore,
+			(a, { points, multiplier }, player) => ({
+				[player]: {
+					name: player,
+					points:
+						((a[player] && a[player].points) || 0) +
+						points * multiplier
+				}
+			}),
+			acc
+		));
+	}, {});
+}
+
+function countPlayerTiles({ players = [], tiles = [], playerTiles = [] }) {
+	const defaultPlayerTiles = getNewPlayerTiles();
+
+	const tilesRes = tiles.reduce(
+		(acc, row) =>
+			row.reduce((a, tile) => {
+				if (tile.playerTile) {
+					const found = defaultPlayerTiles.findIndex(
+						t => t.letter === tile.letter
+					);
+					if (found === -1) {
+						return Result.createError(
+							`There is an extra player tile with the letter '${
+								tile.playerTile.letter
+							}' on the Board.`
+						);
+					}
+					defaultPlayerTiles.splice(found, 1);
+				}
+				return a;
+			}, Result.create("No error")),
+		Result.create("No error")
+	);
+
+	const playerTilesRes = playerTiles.reduce((acc, tile) => {
+		const found = defaultPlayerTiles.findIndex(
+			t => t.letter === tile.letter
+		);
+
+		if (found === -1) {
+			return Result.createError(
+				`There is an extra player tile with the letter '${
+					tile.letter
+				}' in playerTiles.`
+			);
+		}
+		defaultPlayerTiles.splice(found, 1);
+		return acc;
+	}, Result.create("No error"));
+
+	const playersRes = players.reduce(
+		(acc, p) =>
+			(p.tiles || []).reduce((a, tile) => {
+				const found = defaultPlayerTiles.findIndex(
+					t => t.letter === tile.letter
+				);
+				if (found === -1) {
+					return Result.createError(
+						`There is an extra player tile with the letter '${
+							tile.letter
+						}' in players.`
+					);
+				}
+				defaultPlayerTiles.splice(found, 1);
+				return a;
+			}, Result.create("No error")),
+		Result.create("No error")
+	);
+
+	if (defaultPlayerTiles.length > 0) {
+		return Result.createError(
+			`There are ${
+				defaultPlayerTiles.length
+			} player tiles not accounted for in this board.`
+		);
+	}
+	return Result.create("All tiles accounted for.");
+}
+
 // TODO: Actually validate it
 function isValidBoard(board) {
 	// check players
-	const { players } = board;
+	const { players, tiles, playerTiles } = board;
 	if (!players || !Array.isArray(players)) {
 		return Result.createError("Board requires players to be an array.");
 		// ensure no duplicates
@@ -465,7 +672,49 @@ function isValidBoard(board) {
 		);
 	}
 
-	return Result.create("NEED TO UPDATE THIS FUNCTION!!!");
+	// ensure all tiles are in the correct locations
+	const defaultTiles = newBoard().tiles;
+	defaultTiles.every((row, i) =>
+		row.every((t, j) => {
+			const { startTile: st, letterPoints: lp, wordPoints: wp } = t;
+			const { startTile, letterPoints, wordPoints } = tiles[i][j];
+			return (
+				isValidTile(tiles[i][j]) &&
+				startTile === st &&
+				letterPoints === lp &&
+				wp === wp
+			);
+		})
+	);
+
+	// ensure all player tiles accounted for
+	const tileCountRes = countPlayerTiles({ players, tiles, playerTiles });
+	if (Result.isError(tileCountRes)) {
+		return tileCountRes;
+	}
+
+	// ensure all tiles are connected to the start tile
+
+	// ensure all words are valid words and connect to the start tile
+	const wordsRes = getAllBoardWords(board);
+	if (Result.isError(wordsRes)) {
+		return wordsRes;
+	}
+
+	// esnure all points match up
+	const points = getPointsFromWords(Result.getMessage(wordsRes));
+	if (
+		!players.every(
+			p =>
+				points[p.name]
+					? points[p.name].points === p.points
+					: p.points === 0 || !p.points
+		)
+	) {
+		return Result.createError("Points are not correct.");
+	}
+
+	return Result.create("Valid board.");
 }
 
 function getPlayers(board) {
@@ -574,10 +823,6 @@ function move({
 		return Result.createError(`Can not make '${word}' with current tiles.`);
 	}
 
-	// we calculate points during insertion
-	let points = 0;
-	let wordMultipler = 1;
-
 	// attempt add word to board
 	if (right) {
 		for (let i = column; i < word.length + column; i++) {
@@ -585,13 +830,9 @@ function move({
 				return Result.createError("Can not replace tiles.");
 			}
 			const tileUsed = tilesUsed[i - column];
-			const { letter, points: tilePoints } = tileUsed;
-			const { letterPoints, wordPoints } = tiles[row][i];
+			const { letter } = tileUsed;
 			tiles[row][i].letter = letter;
 			tiles[row][i].playerTile = tileUsed;
-
-			points += tilePoints * letterPoints;
-			wordMultipler *= wordPoints;
 		}
 	} else {
 		for (let i = row; i < word.length + row; i++) {
@@ -599,33 +840,52 @@ function move({
 				return Result.createError("Can not replace tiles.");
 			}
 			const tileUsed = tilesUsed[i - row];
-			const { letter, points: tilePoints } = tileUsed;
-			const { letterPoints, wordPoints } = tiles[i][column];
+			const { letter } = tileUsed;
 			tiles[i][column].letter = letter;
 			tiles[i][column].playerTile = tileUsed;
-
-			points += tilePoints * letterPoints;
-			wordMultipler *= wordPoints;
 		}
 	} // we already validated right XOR down
-	points *= wordMultipler;
 
-	// now update player points.
-	const playerStruct = players.find(
-		({ name }) => name.toLowerCase() === player.toLowerCase()
-	);
-	if (!playerStruct) {
-		Result.createError("Could not find player to update points.");
+	// ensure words are valid
+	const wordsRes = getAllBoardWords(board);
+	if (Result.isError(wordsRes)) {
+		return wordsRes;
 	}
-	playerStruct.points = (playerStruct.points || 0) + points;
 
-	// now add new tiles to playerStruct
-	while (playerStruct.tiles.length < 7) {
-		playerStruct.tiles.push(getRandomPlayerTile(playerTiles));
+	// points
+	const points = getPointsFromWords(Result.getMessage(wordsRes));
+	const updatedPlayers = players.map(p => ({
+		...p,
+		points: (points[p.name] && points[p.name].points) || 0
+	}));
+
+	// now add new tiles to current player
+	while (players[turnCount % players.length].tiles.length < 7) {
+		const randTileRes = getRandomPlayerTile(playerTiles);
+		if (Result.isError(randTileRes)) {
+			// WE FOUND A WINNER
+			const newBoard = {
+				...board,
+				winner: updatedPlayers.reduce((acc, player) => {
+					if (acc.points < player.points) {
+						return player;
+					}
+				}),
+				turnCount: ++board.turnCount
+			};
+			if (Result.isError(newBoardRes)) {
+				return newBoardRes;
+			}
+			return Result.create(newBoard);
+		}
+		players[turnCount % players.length].tiles.push(
+			Result.getMessage(randTileRes)
+		);
 	}
 
 	const newBoard = {
 		...board,
+		players: updatedPlayers,
 		turnCount: ++board.turnCount
 	};
 
