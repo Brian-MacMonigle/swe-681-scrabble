@@ -1,5 +1,6 @@
 const express = require("express");
 const frameguard = require("frameguard");
+const cacheControl = require("express-cache-controller");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 
@@ -13,6 +14,11 @@ const port = process.env.PORT || 5000;
 
 // allows parsing of the body
 app.use(frameguard());
+app.use(
+	cacheControl({
+		noCache: true
+	})
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // allows cookies
