@@ -188,14 +188,7 @@ class GameBrowser extends React.Component {
 			res = await postJSONFromServer("/games/delete", { id });
 		}
 		if (Result.isSuccess(res)) {
-			console.log("onDeleteOrQuit: ", "\nres: ", Result.getMessage(res));
 			this.reloadData();
-		} else {
-			console.log(
-				"onDeleteOrQuit: ",
-				"\nerror res: ",
-				Result.getMessage(res)
-			);
 		}
 	};
 

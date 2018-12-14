@@ -42,7 +42,6 @@ class HostPage extends Component {
 		const res = await postJSONFromServer("/games/new", {
 			gameName
 		});
-		console.log("onHost: ", this, "\ngameName: ", gameName, "\nres: ", res);
 		if (Result.isSuccess(res)) {
 			const { id } = Result.getMessage(res);
 			history.push(`/game/?id=${id}`);

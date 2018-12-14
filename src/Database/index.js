@@ -12,7 +12,7 @@ function write(path, data) {
 	database
 		.ref(path)
 		.set(data)
-		.catch(err => console.log("Error writing to database: ", err));
+		.catch(err => false);
 }
 
 async function writeTransaction(

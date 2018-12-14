@@ -45,8 +45,6 @@ function log(...data) {
 	}, []);
 
 	const dataRes = { ...sanitizedArray };
-
-	console.log(path, "\n", dataRes, "\n");
 	Database.write(path, dataRes);
 }
 

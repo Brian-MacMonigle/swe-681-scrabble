@@ -135,23 +135,6 @@ class ScrabbleBoard extends React.Component {
 			}
 		} = this;
 
-		console.log(
-			"onMove: ",
-			"\nusername: ",
-			username,
-			"\nword: ",
-			word,
-			"\nselectedTile: ",
-			"\n\trow: ",
-			row,
-			"\n\tcolumn: ",
-			column,
-			"\nright: ",
-			right,
-			"\ndown: ",
-			down
-		);
-
 		const res = await postJSONFromServer("/games/move", {
 			username,
 			word,
@@ -204,11 +187,7 @@ class ScrabbleBoard extends React.Component {
 					board: { tiles = [], players = [], turnCount } = {}
 				} = {}
 			} = {},
-			state: {
-				word,
-				tile: selectedTile,
-				radio: { right = false, down = false } = {}
-			}
+			state: { word, radio: { right = false, down = false } = {} }
 		} = this;
 		let {
 			state: { error }
@@ -222,7 +201,6 @@ class ScrabbleBoard extends React.Component {
 				({ name = "" }) => name.toLowerCase() === username.toLowerCase()
 			) || {};
 		const {
-			name: playerName = "",
 			tiles: playerTiles = [],
 			points: playerPoints = 0
 		} = thisPlayer;
@@ -236,40 +214,6 @@ class ScrabbleBoard extends React.Component {
 			tiles: opponentTiles = [],
 			points: opponentPoints = 0
 		} = opponent;
-
-		console.log(
-			"ScrabbleBoard: ",
-			"\nrender: ",
-			this,
-			"\nerror: ",
-			error,
-			"\ngameData: ",
-			gameData,
-			"\ngameName: ",
-			gameName,
-			"\nturnCount: ",
-			turnCount,
-			"\nturnPlayer: ",
-			turnPlayer,
-			"\ntiles: ",
-			tiles,
-			"\nplayers: ",
-			players,
-			"\nusername: ",
-			username,
-			"\nthisPlayer: ",
-			thisPlayer,
-			"\nplayerName: ",
-			playerName,
-			"\nplayerTiles: ",
-			playerTiles,
-			"\nright: ",
-			right,
-			"\ndown: ",
-			down,
-			"\nselectedTile: ",
-			selectedTile
-		);
 
 		if (players.length < 2) {
 			error = "Please invite someone else to your game.";
