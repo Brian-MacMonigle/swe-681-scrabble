@@ -516,6 +516,7 @@ function getAllBoardWords({ tiles }) {
 		// if the word is a single tile, and not a valid word
 		// and not in the other list, then this is a corrupted board.
 		if (!validWord(text)) {
+			console.log("Parsing invalid word: ", text);
 			if (
 				!text.length === 1 ||
 				!verticalWords.find(
@@ -536,6 +537,7 @@ function getAllBoardWords({ tiles }) {
 		// if the word is a single tile, and not a valid word
 		// and not in the other list, then this is a corrupted board.
 		if (!validWord(text)) {
+			console.log("Parsing invalid word: ", text);
 			if (
 				!text.length === 1 ||
 				!horizontalWords.find(
