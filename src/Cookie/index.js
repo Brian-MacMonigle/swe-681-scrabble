@@ -1,11 +1,10 @@
-
-const COOKIE_NAME = 'swe-681-scrabble-login';
+const COOKIE_NAME = "swe-681-scrabble-login";
 
 // 7 days
 const DEFAULT_MAX_AGE = 1000 * 60 * 60 * 24 * 7;
 
 function getFromReq(req) {
-	return req && req.cookies && req.cookies[COOKIE_NAME] || false;
+	return (req && req.cookies && req.cookies[COOKIE_NAME]) || false;
 }
 
 function createInRes(res, username, token) {
@@ -13,11 +12,12 @@ function createInRes(res, username, token) {
 		COOKIE_NAME,
 		{
 			username,
-			token,
+			token
 		},
 		{
 			maxAge: DEFAULT_MAX_AGE,
-		},
+			httpOnly: true
+		}
 	];
 	res.cookie(...cookie);
 	return true;
