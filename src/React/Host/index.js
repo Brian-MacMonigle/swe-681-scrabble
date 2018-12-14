@@ -1,8 +1,13 @@
 import React, { Component } from "react";
-import { Redirect, withRouter } from "react-router";
+import { withRouter } from "react-router";
 import Styled from "styled-components";
 
 import Result, { postJSONFromServer } from "../FetchWrapper";
+
+const Error = Styled.div`
+	color: red;
+	text-align: center;
+`;
 
 const HostTitle = Styled.h1`
 `;
@@ -51,7 +56,7 @@ class HostPage extends Component {
 		} = this;
 
 		if (!username) {
-			return <Redirect to="/" />;
+			return <Error>You must be logged in to host a game.</Error>;
 		}
 
 		return (

@@ -55,6 +55,11 @@ class GameBrowser extends React.Component {
 
 	componentDidMount() {
 		this.reloadData();
+		this.timer = setInterval(() => this.reloadData(), 1000 * 5);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.timer);
 	}
 
 	shouldComponentUpdate(nextProps) {
