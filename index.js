@@ -1,5 +1,6 @@
 const express = require("express");
 const frameguard = require("frameguard");
+const xssFilter = require("x-xss-protection");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 
@@ -13,6 +14,7 @@ const port = process.env.PORT || 5000;
 
 // allows parsing of the body
 app.use(frameguard());
+app.use(xxsFilter());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // allows cookies
