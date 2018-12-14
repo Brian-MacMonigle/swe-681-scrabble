@@ -509,52 +509,62 @@ function getAllBoardWords({ tiles }) {
 		return acc.concat(res);
 	}, []);
 
-	// word lists contain single letter words that are actually part of another word.
-	const sanitizedHorizontalWords = horizontalWords.reduce((acc, word) => {
-		const text = word.map(({ letter }) => letter).join("");
+	try {
+		// word lists contain single letter words that are actually part of another word.
+		const sanitizedHorizontalWords = horizontalWords.reduce((acc, word) => {
+			const text = word.map(({ letter }) => letter).join("");
 
-		// if the word is a single tile, and not a valid word
-		// and not in the other list, then this is a corrupted board.
-		if (!validWord(text)) {
-			console.log("Parsing invalid word: ", text);
-			if (
-				!text.length === 1 ||
-				!verticalWords.find(
-					({ i, j }) => word[0].i === i && word[0].j === j
-				)
-			) {
-				Result.createError(`invalid word at ${tile.i}, ${tile.j}`);
+			// if the word is a single tile, and not a valid word
+			// and not in the other list, then this is a corrupted board.
+			if (!validWord(text)) {
+				if (
+					!text.length === 1 ||
+					!verticalWords.find(verticalWord =>
+						verticalWord.find(
+							({ i, j }) => word[0].i === i && word[0].j === j
+						)
+					)
+				) {
+					throw Result.createError(
+						`invalid word at ${word[0].i}, ${word[0].j}`
+					);
+				}
+			} else {
+				acc.push(word);
 			}
-		} else {
-			acc.push(word);
-		}
-		return acc;
-	}, []);
+			return acc;
+		}, []);
 
-	const sanitizedVerticalWords = verticalWords.reduce((acc, word) => {
-		const text = word.map(({ letter }) => letter).join("");
+		const sanitizedVerticalWords = verticalWords.reduce((acc, word) => {
+			const text = word.map(({ letter }) => letter).join("");
 
-		// if the word is a single tile, and not a valid word
-		// and not in the other list, then this is a corrupted board.
-		if (!validWord(text)) {
-			console.log("Parsing invalid word: ", text);
-			if (
-				!text.length === 1 ||
-				!horizontalWords.find(
-					({ i, j }) => word[0].i === i && word[0].j === j
-				)
-			) {
-				Result.createError(`invalid word at ${tile.i}, ${tile.j}`);
+			// if the word is a single tile, and not a valid word
+			// and not in the other list, then this is a corrupted board.
+			if (!validWord(text)) {
+				if (
+					!text.length === 1 ||
+					!horizontalWords.find(horizontalWord =>
+						horizontalWord.find(
+							({ i, j }) => word[0].i === i && word[0].j === j
+						)
+					)
+				) {
+					throw Result.createError(
+						`invalid word at ${word[0].i}, ${word[0].j}`
+					);
+				}
+			} else {
+				acc.push(word);
 			}
-		} else {
-			acc.push(word);
-		}
-		return acc;
-	}, []);
+			return acc;
+		}, []);
 
-	return Result.create(
-		sanitizedHorizontalWords.concat(sanitizedVerticalWords)
-	);
+		return Result.create(
+			sanitizedHorizontalWords.concat(sanitizedVerticalWords)
+		);
+	} catch (err) {
+		return err;
+	}
 }
 
 // returns { [player]: { name: player, points: # } };
@@ -659,7 +669,87 @@ function countPlayerTiles({ players = [], tiles = [], playerTiles = [] }) {
 	return Result.create("All tiles accounted for.");
 }
 
-// TODO: Actually validate it
+function addRowColumn(tiles) {
+	return tiles.map((row, i) => row.map((tile, j) => ({ ...tile, i, j })));
+}
+
+function areTilesConnectedToStart({ tiles: originalTiles }) {
+	const tiles = addRowColumn(originalTiles);
+	const tilesToTouch = _.flatten(tiles).filter(tile => tile.letter !== "");
+	if (tilesToTouch.length === 0) {
+		return true; // empty board.
+	}
+	const startTile = tiles[7][7];
+	if (startTile.letter === "") {
+		return tilesToTouch.length === 0; // should be empty board;
+	}
+	// find and remove
+	let index = tilesToTouch.find(
+		({ i, j }) => i === startTile.i && j === startTile.j
+	);
+	if (index !== -1) {
+		tilesToTouch.splice(index, 1);
+		startTile.touched = true;
+	}
+
+	let stack = [];
+	if (tiles[6][7].letter !== "") {
+		stack.push(tiles[6][7]);
+	}
+	if (tiles[8][7].letter !== "") {
+		stack.push(tiles[8][7]);
+	}
+	if (tiles[7][6].letter !== "") {
+		stack.push(tiles[7][6]);
+	}
+	if (tiles[7][8].letter !== "") {
+		stack.push(tiles[7][8]);
+	}
+
+	let count = 10;
+
+	while (stack.length !== 0 && --count > 0) {
+		// process top of stack
+		const tile = stack.pop();
+		tile.touched = true;
+		stack = stack.filter(({ i, j }) => tile.i !== i && tile.j !== j);
+		index = tilesToTouch.findIndex(
+			({ i, j }) => i === tile.i && j === tile.j
+		);
+		if (index !== -1) {
+			tilesToTouch.splice(index, 1);
+		}
+
+		// push more to stack
+		if (tile.i - 1 >= 0) {
+			const up = tiles[tile.i - 1][tile.j];
+			if (!up.touched && up.letter !== "") {
+				stack.push(up);
+			}
+		}
+		if (tile.i + 1 <= 14) {
+			const down = tiles[tile.i + 1][tile.j];
+			if (!down.touched && down.letter !== "") {
+				stack.push(down);
+			}
+		}
+		if (tile.j - 1 >= 0) {
+			const left = tiles[tile.i][tile.j - 1];
+			if (!left.touched && left.letter !== "") {
+				stack.push(left);
+			}
+		}
+		if (tile.j + 1 <= 14) {
+			const right = tiles[tile.i][tile.j + 1];
+			if (!right.touched && right.letter !== "") {
+				stack.push(right);
+			}
+		}
+	}
+
+	return tilesToTouch.length === 0;
+}
+
 function isValidBoard(board) {
 	// check players
 	const { players, tiles, playerTiles } = board;
@@ -696,6 +786,12 @@ function isValidBoard(board) {
 	}
 
 	// ensure all tiles are connected to the start tile
+	const tilesTouching = areTilesConnectedToStart(board);
+	if (!tilesTouching) {
+		return Result.createError(
+			"The first word must touch the start tile.  All other words must be built from other words aready on the board."
+		);
+	}
 
 	// ensure all words are valid words and connect to the start tile
 	const wordsRes = getAllBoardWords(board);
@@ -777,10 +873,8 @@ function move({
 		);
 	}
 
-	// ensure valid word
-	if (!validWord(word)) {
-		return Result.createError("Word provided is not in the dictionary.");
-	}
+	// ensure valid word is done by the board validation.
+	// players can input partial words to complete existing words
 
 	// ensure word can fit
 	// +1 because length + location = tile after insert
