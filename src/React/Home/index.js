@@ -24,6 +24,10 @@ const Home = () => (
 			<li>You must sign in to play a game.</li>
 			<li>You must either host or join a game.</li>
 			<li>Only two players are supported at the moment.</li>
+			<li>
+				This game uses the 2015 Collins Scrabble word list for valid
+				words.
+			</li>
 			<li>Most importantly: have fun!</li>
 		</ul>
 	</div>
