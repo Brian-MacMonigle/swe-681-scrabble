@@ -28,12 +28,22 @@ class GameFetcher extends React.Component {
 		this.timer = setInterval(() => this.updateBoard(), 1000 * 5);
 	}
 
-	componentWillunmount() {
+	componentWillUnmount() {
 		clearInterval(this.timer);
 	}
 
 	updateBoard = async () => {
-		const { props: { id } = {} } = this;
+		const { props: { id, loginState: { username } } = {} } = this;
+		if (!id) {
+			return;
+		}
+		if (!username) {
+			this.setState({
+				error:
+					"You need to be logged in to view the contents of this page."
+			});
+			return;
+		}
 		const res = await postJSONFromServer("/games/board", { id });
 		if (Result.isError(res)) {
 			this.setState({
