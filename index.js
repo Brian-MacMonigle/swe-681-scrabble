@@ -201,6 +201,7 @@ app.all("/api/*", (req, res) => {
 
 // If no other url called, return the react app.  Most connections will follow this route.
 app.get("*", (req, res) => {
+	res.header("Content-Type", "text/html");
 	res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
