@@ -24,6 +24,14 @@ class GameFetcher extends React.Component {
 		this.updateBoard();
 	}
 
+	componentDidMount() {
+		this.timer = setInterval(() => this.updateBoard(), 1000 * 5);
+	}
+
+	componentWillunmount() {
+		clearInterval(this.timer);
+	}
+
 	updateBoard = async () => {
 		const { props: { id } = {} } = this;
 		const res = await postJSONFromServer("/games/board", { id });
